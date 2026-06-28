@@ -1,0 +1,39 @@
+[
+  { "source": "person-kris-krug", "target": "init-bc-ai", "type": "convenes" },
+  { "source": "person-kris-krug", "target": "init-ed-ai", "type": "convenes" },
+  { "source": "person-kris-krug", "target": "init-futureproof", "type": "convenes" },
+  { "source": "person-kris-krug", "target": "org-bcai-assoc", "type": "founded" },
+  { "source": "person-kris-krug", "target": "org-the-upgrade", "type": "leads" },
+
+  { "source": "org-bcai-assoc", "target": "init-bc-ai", "type": "stewards", "weight": 3 },
+  { "source": "org-bcai-assoc", "target": "org-innovate-bc", "type": "partners" },
+  { "source": "org-bcai-assoc", "target": "proj-bc-ai-directory", "type": "publishes" },
+  { "source": "org-bcai-assoc", "target": "proj-toc", "type": "maintains" },
+  { "source": "org-bcai-assoc", "target": "proj-observatory", "type": "operates" },
+  { "source": "org-bcai-assoc", "target": "event-futureproof-2026", "type": "produces" },
+  { "source": "org-bcai-assoc", "target": "event-bcai-festival-week", "type": "produces" },
+
+  { "source": "init-futureproof", "target": "event-futureproof-2026", "type": "includes", "weight": 2 },
+  { "source": "event-futureproof-2026", "target": "org-space-centre", "type": "hosted-at" },
+  { "source": "event-bcai-festival-week", "target": "init-futureproof", "type": "extends" },
+  { "source": "event-bcai-festival-week", "target": "init-bc-ai", "type": "part-of" },
+
+  { "source": "init-ed-ai", "target": "event-ai-education-meetup", "type": "includes", "weight": 2 },
+  { "source": "event-ai-education-meetup", "target": "org-ethos-lab", "type": "hosted-at" },
+  { "source": "org-ethos-lab", "target": "init-ed-ai", "type": "part-of" },
+  { "source": "org-ethos-lab", "target": "init-bc-ai", "type": "part-of" },
+  { "source": "org-the-upgrade", "target": "proj-rai-program", "type": "runs", "weight": 2 },
+  { "source": "proj-rai-program", "target": "init-ed-ai", "type": "part-of" },
+  { "source": "org-the-upgrade", "target": "init-bc-ai", "type": "part-of" },
+  { "source": "person-kris-krug", "target": "proj-rai-program", "type": "teaches" },
+
+  { "source": "org-vancouver-ai", "target": "event-vancouver-ai-meetup", "type": "runs", "weight": 2 },
+  { "source": "org-vancouver-ai", "target": "init-bc-ai", "type": "part-of" },
+  { "source": "event-vancouver-ai-meetup", "target": "init-bc-ai", "type": "part-of" },
+
+  { "source": "proj-toc", "target": "init-bc-ai", "type": "guides" },
+  { "source": "proj-bc-ai-directory", "target": "proj-observatory", "type": "feeds", "weight": 2 },
+  { "source": "proj-observatory", "target": "init-bc-ai", "type": "maps" },
+  { "source": "proj-observatory", "target": "init-ed-ai", "type": "maps" },
+  { "source": "proj-observatory", "target": "init-futureproof", "type": "maps" }
+]

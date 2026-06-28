@@ -1,0 +1,154 @@
+[
+  {
+    "id": "init-bc-ai",
+    "type": "initiative",
+    "name": "BC + AI",
+    "blurb": "An ecosystem initiative growing an ethical, community-led AI scene across British Columbia.",
+    "initiatives": ["bc-ai"],
+    "tags": ["ecosystem", "community", "british-columbia"],
+    "links": [{ "label": "bc-ai.ca", "url": "https://bc-ai.ca" }]
+  },
+  {
+    "id": "init-ed-ai",
+    "type": "initiative",
+    "name": "ED + AI",
+    "blurb": "Education + AI: building AI literacy and equity for educators, students, and tutors.",
+    "initiatives": ["ed-ai"],
+    "tags": ["education", "literacy"]
+  },
+  {
+    "id": "init-futureproof",
+    "type": "initiative",
+    "name": "Futureproof",
+    "blurb": "An ideas festival where AI is the moment, not the genre. Build what lasts.",
+    "initiatives": ["futureproof"],
+    "tags": ["festival", "ideas"],
+    "links": [{ "label": "futureproof.website", "url": "https://futureproof.website" }]
+  },
+
+  {
+    "id": "org-bcai-assoc",
+    "type": "org",
+    "name": "BC AI Ecosystem Association",
+    "blurb": "Registered BC nonprofit serving as the umbrella for community building, education, and partnerships, with an Indigenous-leadership focus.",
+    "initiatives": ["bc-ai"],
+    "tags": ["nonprofit", "governance"],
+    "links": [{ "label": "bc-ai.ca", "url": "https://bc-ai.ca" }]
+  },
+  {
+    "id": "org-innovate-bc",
+    "type": "org",
+    "name": "Innovate BC",
+    "blurb": "Provincial innovation agency and ecosystem partner supporting BC's tech and AI sectors.",
+    "initiatives": ["bc-ai"],
+    "tags": ["partner", "government"]
+  },
+  {
+    "id": "org-ethos-lab",
+    "type": "org",
+    "name": "Ethọ́s Lab",
+    "blurb": "Vancouver learning space hosting the AI in Education meetup and youth-focused programming.",
+    "initiatives": ["ed-ai", "bc-ai"],
+    "tags": ["venue", "youth", "education"]
+  },
+  {
+    "id": "org-space-centre",
+    "type": "org",
+    "name": "H.R. MacMillan Space Centre",
+    "blurb": "Vancouver venue hosting the inaugural Futureproof Festival in 2026.",
+    "initiatives": ["futureproof"],
+    "tags": ["venue"]
+  },
+  {
+    "id": "org-the-upgrade",
+    "type": "org",
+    "name": "The Upgrade",
+    "blurb": "AI training studio delivering hands-on, responsible-AI upskilling programs.",
+    "initiatives": ["bc-ai", "ed-ai"],
+    "tags": ["training", "education"]
+  },
+  {
+    "id": "org-vancouver-ai",
+    "type": "org",
+    "name": "Vancouver AI",
+    "blurb": "Long-running Vancouver community of AI practitioners, builders, and researchers.",
+    "initiatives": ["bc-ai"],
+    "tags": ["community", "meetup"]
+  },
+
+  {
+    "id": "proj-rai-program",
+    "type": "project",
+    "name": "Responsible AI Professional Program",
+    "blurb": "Certification program training practitioners to deploy AI responsibly across organizations.",
+    "initiatives": ["ed-ai", "bc-ai"],
+    "tags": ["certification", "responsible-ai"]
+  },
+  {
+    "id": "proj-bc-ai-directory",
+    "type": "project",
+    "name": "BC AI Directory",
+    "blurb": "Open dataset of BC's AI organizations and people, published under CC BY 4.0.",
+    "initiatives": ["bc-ai"],
+    "tags": ["open-data", "directory"]
+  },
+  {
+    "id": "proj-observatory",
+    "type": "project",
+    "name": "The Observatory",
+    "blurb": "This living map — a public, interactive graph of the BC+AI, ED+AI, and Futureproof ecosystem.",
+    "initiatives": ["bc-ai", "ed-ai", "futureproof"],
+    "tags": ["living-map", "open-source"]
+  },
+  {
+    "id": "proj-toc",
+    "type": "project",
+    "name": "Theory of Change",
+    "blurb": "BC + AI's strategic framework of guiding questions shaping community programming.",
+    "initiatives": ["bc-ai"],
+    "tags": ["strategy"]
+  },
+
+  {
+    "id": "event-futureproof-2026",
+    "type": "event",
+    "name": "Futureproof Festival 2026",
+    "blurb": "Inaugural ideas festival, Oct 28–30 2026 at the H.R. MacMillan Space Centre, Vancouver.",
+    "initiatives": ["futureproof"],
+    "tags": ["festival", "2026"],
+    "links": [{ "label": "futureproof.website", "url": "https://futureproof.website" }]
+  },
+  {
+    "id": "event-ai-education-meetup",
+    "type": "event",
+    "name": "AI in Education Meetup",
+    "blurb": "Recurring gathering of teachers, professors, students, and tutors exploring AI in the classroom.",
+    "initiatives": ["ed-ai"],
+    "tags": ["meetup", "education"]
+  },
+  {
+    "id": "event-vancouver-ai-meetup",
+    "type": "event",
+    "name": "Vancouver AI Meetup",
+    "blurb": "Regular community meetup for AI builders and practitioners in Vancouver.",
+    "initiatives": ["bc-ai"],
+    "tags": ["meetup"]
+  },
+  {
+    "id": "event-bcai-festival-week",
+    "type": "event",
+    "name": "BC AI Festival Week",
+    "blurb": "Week-long, multi-track vision (2027) expanding Futureproof into a full festival format.",
+    "initiatives": ["futureproof", "bc-ai"],
+    "tags": ["festival", "2027", "vision"]
+  },
+
+  {
+    "id": "person-kris-krug",
+    "type": "person",
+    "name": "Kris Krüg",
+    "blurb": "Convenor and connector across BC + AI, ED + AI, and Futureproof; photographer, technologist, and community builder.",
+    "initiatives": ["bc-ai", "ed-ai", "futureproof"],
+    "tags": ["founder", "convenor"]
+  }
+]
