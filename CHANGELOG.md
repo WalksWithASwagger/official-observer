@@ -3,6 +3,31 @@
 All notable changes to The Observatory are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.2.0] — 2026-06-28
+
+Populated the map with the real public ecosystem and removed individuals.
+
+### Changed
+- **Map now reflects the real ecosystem** — grew from 18 seed nodes to **39
+  entities / 62 relationships**: the nonprofit, all recurring programs (Vancouver
+  AI Meetup, ED+AI, Comox Valley, Fraser Valley, Film Club, Office Hours, MAC, AI
+  Happy Hour, Life Sciences SIG), Futureproof Festival + its tracks, The Upgrade /
+  RAP, Wild Salmon Programme, and partners/venues/sponsors/academic/government.
+- Entities now carry a `region` tag (vancouver / comox-valley / fraser-valley /
+  victoria / provincial / national) to seed a future geographic view.
+
+### Removed
+- **All individual people.** v1 is orgs/events/programs/initiatives only — zero
+  PII, zero consent surface. (`person` stays in the schema for later, with consent.)
+
+### Privacy
+- Hard public/private gate enforced: nothing sourced from private datasets
+  (people index, SQLite DBs, CRM), Chatham House content, funding figures,
+  unannounced transitions, or the AInBC governance dossier.
+
+### Fixed
+- Filter bar now shows only entity types present in the data (no empty "Person").
+
 ## [0.1.0] — 2026-06-28
 
 Initial public release. A living map of the BC + AI, ED + AI, and Futureproof

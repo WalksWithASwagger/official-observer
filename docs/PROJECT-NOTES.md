@@ -58,12 +58,22 @@ Edit `data/entities.json` + `data/relationships.json`, reload. See
   inspect, neighbor highlighting, search, filters — no console errors. Live
   production (https://official-observer.vercel.app) returns 200.
 
-## Open questions / roadmap
+## Roadmap
 
-- **Custom domain** — currently on `official-observer.vercel.app`. Decide the
-  real domain (e.g. `observer.bc-ai.ca`) and wire DNS in Vercel.
-- **Data density** — optionally import the already-CC-BY `bc-ai-directory.json`
-  (962 orgs / 1,297 people) as an explicit, public-only step.
-- **"Pulse" layer (Concept C)** — a "what's happening now" view (new orgs,
-  upcoming events, momentum) layered on the graph.
-- **Geographic view** — MapLibre map if/when entities carry coordinates.
+Grounded in the real ecosystem (nonprofit, 8+ programs, Futureproof as the 2026
+gravitational center). The map is a public **front door** that also takes ops
+load off the team. Hard rule throughout: **public-safe entities only** — no PII,
+no Chatham House content, no funding figures, no AInBC governance dossier.
+
+- [x] **Custom domain** — live at https://official.observer (Porkbun A-record).
+- [x] **Phase 1 — Populate the real ecosystem** *(0.2.0)* — 39 public entities /
+      62 relationships; people removed; `region` tags added.
+- [ ] **Phase 2 — Living "pulse" layer** — `data/events.json` + a Pulse panel:
+      what's next + a Futureproof countdown (Oct 28).
+- [ ] **Phase 3 — Richer nodes + UX** — org logos (public subset), deep links
+      (`?node=`), color-by toggle (initiative vs. type), mobile polish.
+- [ ] **Phase 4 — Geographic BC view** — MapLibre map of chapters by `region`.
+- [ ] **Phase 5 — Front door + embed** — `/embed` route for bc-ai.ca /
+      futureproof.website, ecosystem scorecard, per-chapter "get involved" links.
+- [ ] **Phase 6 — Curate → pipeline** — `scripts/build-data` reading curated
+      source markdown with a `public: true` gate → emits `data/*.json`.

@@ -13,7 +13,12 @@ import type Graph from "graphology";
 
 import { dataset } from "@/lib/data";
 import { buildGraph } from "@/lib/graph";
-import { INITIATIVES, type EntityType, type Initiative } from "@/lib/types";
+import {
+  ENTITY_TYPES,
+  INITIATIVES,
+  type EntityType,
+  type Initiative,
+} from "@/lib/types";
 import { EntityPanel } from "@/components/EntityPanel";
 import { FilterBar } from "@/components/FilterBar";
 import { SearchBox } from "@/components/SearchBox";
@@ -90,6 +95,11 @@ function GraphController({
 export default function Observatory() {
   const graph = useMemo(() => buildGraph(dataset), []);
 
+  const availableTypes = useMemo(() => {
+    const present = new Set(dataset.entities.map((e) => e.type));
+    return ENTITY_TYPES.filter((t) => present.has(t));
+  }, []);
+
   const [selected, setSelected] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [types, setTypes] = useState<Set<EntityType>>(
@@ -152,6 +162,7 @@ export default function Observatory() {
       </header>
 
       <FilterBar
+        availableTypes={availableTypes}
         types={types}
         initiatives={initiatives}
         onToggleType={(t) => setTypes((s) => toggle(s, t))}

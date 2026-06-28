@@ -12,12 +12,21 @@ export interface EntityLink {
   url: string;
 }
 
+export type Region =
+  | "vancouver"
+  | "comox-valley"
+  | "fraser-valley"
+  | "victoria"
+  | "provincial"
+  | "national";
+
 export interface Entity {
   id: string;
   type: EntityType;
   name: string;
   blurb: string;
   initiatives: Initiative[];
+  region?: Region;
   tags?: string[];
   links?: EntityLink[];
 }

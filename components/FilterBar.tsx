@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ENTITY_TYPES,
   ENTITY_TYPE_LABELS,
   INITIATIVES,
   type EntityType,
@@ -35,11 +34,13 @@ function Chip({
 }
 
 export function FilterBar({
+  availableTypes,
   types,
   initiatives,
   onToggleType,
   onToggleInitiative,
 }: {
+  availableTypes: EntityType[];
   types: Set<EntityType>;
   initiatives: Set<Initiative>;
   onToggleType: (t: EntityType) => void;
@@ -66,7 +67,7 @@ export function FilterBar({
         <span className="mr-1 text-xs uppercase tracking-wider text-slate-500">
           Type
         </span>
-        {ENTITY_TYPES.map((t) => (
+        {availableTypes.map((t) => (
           <Chip key={t} active={types.has(t)} onClick={() => onToggleType(t)}>
             {ENTITY_TYPE_LABELS[t]}
           </Chip>
