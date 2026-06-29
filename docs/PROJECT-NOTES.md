@@ -68,12 +68,25 @@ no Chatham House content, no funding figures, no AInBC governance dossier.
 - [x] **Custom domain** — live at https://official.observer (Porkbun A-record).
 - [x] **Phase 1 — Populate the real ecosystem** *(0.2.0)* — 39 public entities /
       62 relationships; people removed; `region` tags added.
-- [ ] **Phase 2 — Living "pulse" layer** — `data/events.json` + a Pulse panel:
-      what's next + a Futureproof countdown (Oct 28).
-- [ ] **Phase 3 — Richer nodes + UX** — org logos (public subset), deep links
-      (`?node=`), color-by toggle (initiative vs. type), mobile polish.
-- [ ] **Phase 4 — Geographic BC view** — MapLibre map of chapters by `region`.
-- [ ] **Phase 5 — Front door + embed** — `/embed` route for bc-ai.ca /
-      futureproof.website, ecosystem scorecard, per-chapter "get involved" links.
-- [ ] **Phase 6 — Curate → pipeline** — `scripts/build-data` reading curated
-      source markdown with a `public: true` gate → emits `data/*.json`.
+- [x] **Phase 2 — Living "pulse" layer** *(0.3.0)* — Pulse panel: Futureproof
+      countdown + what's-next.
+- [x] **Phase 3 — UX** *(0.3.0)* — deep links (`?node=`), color-by toggle +
+      legend. (Org logos still TODO — public-only sourcing needed.)
+- [x] **Phase 4 — Geographic BC view** *(0.3.0)* — keyless d3-geo map + toggle.
+      v1 is Vancouver-centric; a SW-BC inset/zoom is the polish follow-up.
+- [x] **Phase 5 — Front door + embed** *(0.3.0)* — `/embed` route + Scorecard.
+      ("Get involved" per-chapter links + embedding into bc-ai.ca still TODO.)
+- [~] **Backend backbone** *(0.3.0, code complete)* — `/api/graph` + Notion orgs
+      sync + validator. **Runs in static-fallback until KK provisions Neon + sets
+      `NOTION_TOKEN`** (see below).
+- [ ] **Phase 6 — Curate → pipeline (beyond orgs)** — extend the Notion schema
+      (events/projects/initiatives + relationships) so more than orgs auto-feed.
+
+## Going live with the backend (KK actions)
+
+1. **Provision Neon** (Vercel dashboard → Storage → Neon, or `vercel`
+   marketplace). Sets `POSTGRES_URL`/`DATABASE_URL`.
+2. `npm run seed` to load the current data into the DB.
+3. Set `NEXT_PUBLIC_GRAPH_API=/api/graph` so the client hydrates from the API.
+4. Add `NOTION_TOKEN` (integration with access to org DB `1f0c…`) + a
+   `CRON_SECRET` to Vercel env. The nightly cron then syncs public orgs.

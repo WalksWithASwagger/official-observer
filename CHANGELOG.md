@@ -3,6 +3,30 @@
 All notable changes to The Observatory are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.3.0] — 2026-06-28
+
+Roadmap Phases 2–5 + backend backbone.
+
+### Added
+- **Pulse layer** — Futureproof countdown + "what's next" upcoming events
+  (`data/events.json`, `lib/events.ts`, `PulsePanel`).
+- **Deep links** — `?node=<id>` opens an entity and syncs to the URL on select.
+- **Color-by toggle** (initiative ↔ type) with a legend.
+- **Scorecard** — ecosystem stats strip (`lib/stats.ts`).
+- **Geographic BC view** — keyless d3-geo map of chapters by region, with a
+  Graph|Map toggle (`MapView`, `lib/regions.ts`, `data/bc-geo.json`).
+- **`/embed` route** — chrome-less graph for iframing on other sites.
+- **Backend backbone** — `/api/graph` (Postgres with static fallback),
+  `/api/sync/notion` (orgs sync gated by `Status=public`, nightly Vercel cron),
+  `lib/db.ts`, `scripts/seed.mjs`, and a `useDataset()` hook that hydrates from
+  the API when `NEXT_PUBLIC_GRAPH_API` is set.
+- **Validator gate** — `scripts/validate-data.mjs` wired to `prebuild`;
+  hard-fails on person/PII, dangling edges, or invalid enums.
+
+### Notes
+- Backend runs in **static-fallback mode** until Neon is provisioned and a
+  `NOTION_TOKEN` is set — both are KK actions. App is fully functional without them.
+
 ## [0.2.0] — 2026-06-28
 
 Populated the map with the real public ecosystem and removed individuals.
