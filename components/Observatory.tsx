@@ -5,6 +5,7 @@ import "@react-sigma/core/lib/style.css";
 import { useEffect, useMemo, useState } from "react";
 import {
   SigmaContainer,
+  useCamera,
   useLoadGraph,
   useRegisterEvents,
   useSetSettings,
@@ -45,6 +46,7 @@ function GraphController({
   graph,
   visible,
   active,
+  focus,
   colorMode,
   onSelect,
   onHover,
@@ -52,6 +54,7 @@ function GraphController({
   graph: Graph;
   visible: Set<string>;
   active: string | null;
+  focus: string | null;
   colorMode: ColorMode;
   onSelect: (id: string | null) => void;
   onHover: (id: string | null) => void;
@@ -59,6 +62,11 @@ function GraphController({
   const loadGraph = useLoadGraph();
   const setSettings = useSetSettings();
   const registerEvents = useRegisterEvents();
+  const { gotoNode } = useCamera();
+
+  useEffect(() => {
+    if (focus && graph.hasNode(focus)) gotoNode(focus);
+  }, [focus, graph, gotoNode]);
 
   useEffect(() => {
     loadGraph(graph);
@@ -199,6 +207,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
           graph={graph}
           visible={visible}
           active={active}
+          focus={selected}
           colorMode={colorMode}
           onSelect={setSelected}
           onHover={setHovered}
