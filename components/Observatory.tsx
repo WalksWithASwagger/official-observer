@@ -12,6 +12,7 @@ import {
 import type Graph from "graphology";
 
 import { dataset } from "@/lib/data";
+import { useDataset } from "@/lib/useDataset";
 import { buildGraph } from "@/lib/graph";
 import {
   ENTITY_TYPES,
@@ -104,12 +105,13 @@ function GraphController({
 }
 
 export default function Observatory() {
-  const graph = useMemo(() => buildGraph(dataset), []);
+  const data = useDataset();
+  const graph = useMemo(() => buildGraph(data), [data]);
 
   const availableTypes = useMemo(() => {
-    const present = new Set(dataset.entities.map((e) => e.type));
+    const present = new Set(data.entities.map((e) => e.type));
     return ENTITY_TYPES.filter((t) => present.has(t));
-  }, []);
+  }, [data]);
 
   const [selected, setSelected] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -136,13 +138,13 @@ export default function Observatory() {
 
   const visible = useMemo(() => {
     const set = new Set<string>();
-    for (const e of dataset.entities) {
+    for (const e of data.entities) {
       const typeOk = types.has(e.type);
       const initOk = e.initiatives.some((i) => initiatives.has(i));
       if (typeOk && initOk) set.add(e.id);
     }
     return set;
-  }, [types, initiatives]);
+  }, [data, types, initiatives]);
 
   const active = selected ?? hovered;
 
