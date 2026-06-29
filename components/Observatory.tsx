@@ -28,6 +28,7 @@ import { FilterBar } from "@/components/FilterBar";
 import { SearchBox } from "@/components/SearchBox";
 import { PulsePanel } from "@/components/PulsePanel";
 import { Scorecard } from "@/components/Scorecard";
+import { MapView } from "@/components/MapView";
 
 const DIMMED = "#334155";
 
@@ -116,6 +117,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [colorMode, setColorMode] = useState<ColorMode>("initiative");
+  const [view, setView] = useState<"graph" | "map">("graph");
   const [types, setTypes] = useState<Set<EntityType>>(
     () => new Set(dataset.entities.map((e) => e.type)),
   );
@@ -157,6 +159,8 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
 
   return (
     <div className="relative h-dvh w-full overflow-hidden bg-slate-950">
+      {view === "map" && <MapView entities={data.entities} />}
+      {view === "graph" && (
       <SigmaContainer
         style={{ height: "100%", width: "100%", background: "#020617" }}
         settings={{
@@ -178,6 +182,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
           onHover={setHovered}
         />
       </SigmaContainer>
+      )}
 
       {!embed && (
         <>
@@ -203,6 +208,25 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
       <div className="absolute bottom-20 left-4 z-10 rounded-xl border border-white/10 bg-slate-900/80 p-3 text-slate-100 shadow-xl backdrop-blur">
         <div className="mb-2 flex items-center gap-1.5">
           <span className="text-[11px] uppercase tracking-wider text-slate-500">
+            View
+          </span>
+          {(["graph", "map"] as const).map((v) => (
+            <button
+              key={v}
+              onClick={() => setView(v)}
+              className={`rounded-full px-2 py-0.5 text-xs font-medium transition ${
+                view === v
+                  ? "bg-white/10 text-white"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              {v}
+            </button>
+          ))}
+        </div>
+        {view === "graph" && (
+        <div className="mb-2 flex items-center gap-1.5">
+          <span className="text-[11px] uppercase tracking-wider text-slate-500">
             Color by
           </span>
           {(["initiative", "type"] as ColorMode[]).map((m) => (
@@ -219,6 +243,8 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
             </button>
           ))}
         </div>
+        )}
+        {view === "graph" && (
         <ul className="space-y-1">
           {colorMode === "initiative"
             ? INITIATIVES.map((i) => (
@@ -234,6 +260,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
                 </li>
               ))}
         </ul>
+        )}
       </div>
 
       <Scorecard className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2" />
