@@ -45,6 +45,21 @@ Two files drive the whole map:
 
 Add an entity, add its relationships, reload — it's on the map.
 
+## Embed it
+
+The live graph is embeddable via the chrome-less `/embed` route (framing is
+allowed for `bc-ai.ca` and `futureproof.website`):
+
+```html
+<iframe
+  src="https://official.observer/embed"
+  width="100%" height="600"
+  style="border:0;border-radius:12px"
+  title="The Observatory"
+  loading="lazy"
+></iframe>
+```
+
 ## Contributing
 
 Corrections and additions are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md).

@@ -56,6 +56,20 @@ export default function About() {
         . Contributions — corrections, new entities, new connections — are
         welcome via pull request.
       </p>
+
+      <h2 className="mt-10 text-xl font-semibold">Embed this map</h2>
+      <p className="mt-3 text-slate-300">
+        Drop the live graph into your own site with an iframe:
+      </p>
+      <pre className="mt-3 overflow-x-auto rounded-lg bg-white/5 p-3 text-xs text-slate-300">
+        {`<iframe
+  src="https://official.observer/embed"
+  width="100%" height="600"
+  style="border:0;border-radius:12px"
+  title="The Observatory"
+  loading="lazy"
+></iframe>`}
+      </pre>
     </main>
   );
 }
