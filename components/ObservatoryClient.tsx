@@ -11,6 +11,6 @@ const Observatory = dynamic(() => import("@/components/Observatory"), {
   ),
 });
 
-export default function ObservatoryClient() {
-  return <Observatory />;
+export default function ObservatoryClient({ embed = false }: { embed?: boolean }) {
+  return <Observatory embed={embed} />;
 }

@@ -104,7 +104,7 @@ function GraphController({
   return null;
 }
 
-export default function Observatory() {
+export default function Observatory({ embed = false }: { embed?: boolean }) {
   const data = useDataset();
   const graph = useMemo(() => buildGraph(data), [data]);
 
@@ -179,6 +179,8 @@ export default function Observatory() {
         />
       </SigmaContainer>
 
+      {!embed && (
+        <>
       <header className="pointer-events-none absolute bottom-4 left-4 z-10 text-slate-400">
         <h1 className="text-sm font-semibold text-slate-200">The Observatory</h1>
         <p className="text-xs">
@@ -236,6 +238,8 @@ export default function Observatory() {
 
       <Scorecard className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2" />
       <PulsePanel onSelect={(id) => setSelected(id)} />
+        </>
+      )}
 
       <EntityPanel
         selectedId={selected}
