@@ -70,12 +70,12 @@ no Chatham House content, no funding figures, no AInBC governance dossier.
       62 relationships; people removed; `region` tags added.
 - [x] **Phase 2 — Living "pulse" layer** *(0.3.0)* — Pulse panel: Futureproof
       countdown + what's-next.
-- [x] **Phase 3 — UX** *(0.3.0)* — deep links (`?node=`), color-by toggle +
-      legend. (Org logos still TODO — public-only sourcing needed.)
-- [x] **Phase 4 — Geographic BC view** *(0.3.0)* — keyless d3-geo map + toggle.
-      v1 is Vancouver-centric; a SW-BC inset/zoom is the polish follow-up.
-- [x] **Phase 5 — Front door + embed** *(0.3.0)* — `/embed` route + Scorecard.
-      ("Get involved" per-chapter links + embedding into bc-ai.ca still TODO.)
+- [x] **Phase 3 — UX** *(0.3.0–0.4.0)* — deep links, color-by toggle + legend,
+      **type-based node icons**, **camera fly-to**.
+- [x] **Phase 4 — Geographic BC view** *(0.3.0–0.4.0)* — keyless d3-geo map,
+      focused on SW BC, **click-a-region → graph filter**.
+- [x] **Phase 5 — Front door + embed** *(0.3.0–0.4.0)* — `/embed` (hardened,
+      framing CSP, snippet), Scorecard, **"Get involved" links**, **OG share image**.
 - [~] **Backend backbone** *(0.3.0, code complete)* — `/api/graph` + Notion orgs
       sync + validator. **Runs in static-fallback until KK provisions Neon + sets
       `NOTION_TOKEN`** (see below).

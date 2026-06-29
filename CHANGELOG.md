@@ -3,6 +3,27 @@
 All notable changes to The Observatory are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.4.0] — 2026-06-28
+
+Phase 3/5 leftovers + polish.
+
+### Added
+- **Type-based node icons** — white line-glyph per entity type over the colored
+  disc (`@sigma/node-image`, `lib/icons.ts`).
+- **"Get involved" links** — `joinUrl` field → button in the entity panel
+  (BC+AI, Futureproof populated).
+- **Map → graph region filter** — click a region bubble to filter the graph,
+  with a dismissible chip.
+- **Camera fly-to** on selection / search / deep-link.
+- **Embeddable `/embed`** hardened — `frame-ancestors` CSP for bc-ai.ca /
+  futureproof.website, attribution link, iframe snippet in README + `/about`.
+- **Mobile layout pass** — entity panel as a bottom sheet, secondary panels
+  hidden on small screens, stacked top controls.
+- **OG / social share image** — dynamic branded card with live stats + metadata.
+
+### Fixed
+- `.env.example` is now actually tracked (was caught by the default `.env*` ignore).
+
 ## [0.3.0] — 2026-06-28
 
 Roadmap Phases 2–5 + backend backbone.

@@ -13,9 +13,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://official.observer"),
   title: "The Observatory — a living map of BC + AI",
   description:
     "A public, interactive living map of the BC + AI, ED + AI, and Futureproof ecosystem.",
+  openGraph: {
+    title: "The Observatory — a living map of BC + AI",
+    description:
+      "A public, interactive living map of the BC + AI, ED + AI, and Futureproof ecosystem.",
+    siteName: "The Observatory",
+    url: "https://official.observer",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Observatory — a living map of BC + AI",
+    description:
+      "A public, interactive living map of the BC + AI, ED + AI, and Futureproof ecosystem.",
+  },
 };
 
 export default function RootLayout({
