@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { geoMercator, geoPath } from "d3-geo";
-import type { FeatureCollection } from "geojson";
+import type { FeatureCollection, MultiPoint } from "geojson";
 import bcGeoJson from "@/data/bc-geo.json";
 import { REGION_CENTROIDS } from "@/lib/regions";
 import type { Entity, Region } from "@/lib/types";
@@ -11,9 +11,18 @@ const W = 960;
 const H = 720;
 const bcGeo = bcGeoJson as FeatureCollection;
 
+// Focus the view on the populated southwest (Metro Vancouver · Island · Valley)
+// so chapters separate, instead of fitting all of BC and crowding one corner.
+const focus: MultiPoint = {
+  type: "MultiPoint",
+  coordinates: Object.values(REGION_CENTROIDS)
+    .filter((c) => c.plot)
+    .map((c) => [c.lng, c.lat]),
+};
+
 export function MapView({ entities }: { entities: Entity[] }) {
   const projection = useMemo(
-    () => geoMercator().fitExtent([[40, 40], [W - 40, H - 40]], bcGeo),
+    () => geoMercator().fitExtent([[120, 90], [W - 120, H - 110]], focus),
     [],
   );
   const path = useMemo(() => geoPath(projection), [projection]);
@@ -59,7 +68,7 @@ export function MapView({ entities }: { entities: Entity[] }) {
       </svg>
 
       {offMap > 0 && (
-        <div className="absolute bottom-4 right-4 rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-xs text-slate-300 shadow-xl backdrop-blur">
+        <div className="absolute right-4 top-20 rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-xs text-slate-300 shadow-xl backdrop-blur">
           + {counts.provincial ?? 0} province-wide · {counts.national ?? 0} national
         </div>
       )}
