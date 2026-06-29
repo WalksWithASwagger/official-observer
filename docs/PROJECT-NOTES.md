@@ -82,11 +82,27 @@ no Chatham House content, no funding figures, no AInBC governance dossier.
 - [ ] **Phase 6 — Curate → pipeline (beyond orgs)** — extend the Notion schema
       (events/projects/initiatives + relationships) so more than orgs auto-feed.
 
+## Canonical Notion layer (seeded 2026-06-29)
+
+The sync reads two purpose-built DBs under **BC + AI Community Atlas** — not the
+operational DBs. Only `Status = Public` rows sync.
+
+- **Observatory Entities** — `855bcffe-1cad-4edd-a1af-4f381119194d`
+  (39 Public = the live map; ~509 Draft orgs pulled from the AI Ecosystem Map,
+  website+blurb, no Opt-Out, for incremental Public approval).
+- **Observatory Relationships** — `c5ead7b3-f7e3-444d-8994-00b2c99d411b`
+  (62 Public edges).
+
 ## Going live with the backend (KK actions)
 
 1. **Provision Neon** (Vercel dashboard → Storage → Neon, or `vercel`
    marketplace). Sets `POSTGRES_URL`/`DATABASE_URL`.
-2. `npm run seed` to load the current data into the DB.
-3. Set `NEXT_PUBLIC_GRAPH_API=/api/graph` so the client hydrates from the API.
-4. Add `NOTION_TOKEN` (integration with access to org DB `1f0c…`) + a
-   `CRON_SECRET` to Vercel env. The nightly cron then syncs public orgs.
+2. Add to Vercel env:
+   - `NOTION_TOKEN` (integration with access to the two Observatory DBs)
+   - `OBSERVATORY_ENTITIES_DB_ID=855bcffe-1cad-4edd-a1af-4f381119194d`
+   - `OBSERVATORY_RELATIONSHIPS_DB_ID=c5ead7b3-f7e3-444d-8994-00b2c99d411b`
+   - `CRON_SECRET=<random>`
+   - `NEXT_PUBLIC_GRAPH_API=/api/graph`
+3. Trigger `POST /api/sync/notion` once (Bearer `CRON_SECRET`) → confirm 39
+   entities / 62 edges land in Postgres and render on official.observer. Nightly
+   cron keeps it fresh; flip Draft orgs → Public to add them over time.
