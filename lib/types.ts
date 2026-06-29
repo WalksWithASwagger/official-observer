@@ -29,6 +29,7 @@ export interface Entity {
   region?: Region;
   tags?: string[];
   links?: EntityLink[];
+  joinUrl?: string;
 }
 
 export interface Relationship {

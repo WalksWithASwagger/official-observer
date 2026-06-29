@@ -50,6 +50,17 @@ export function EntityPanel({
       <div className="overflow-y-auto p-4 text-sm">
         <p className="text-slate-300">{entity.blurb}</p>
 
+        {entity.joinUrl && (
+          <a
+            href={entity.joinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1 rounded-lg bg-sky-500/15 px-3 py-1.5 text-sm font-medium text-sky-300 transition hover:bg-sky-500/25"
+          >
+            Get involved →
+          </a>
+        )}
+
         <div className="mt-3 flex flex-wrap gap-1.5">
           {entity.initiatives.map((id) => {
             const init = INITIATIVES.find((i) => i.id === id);

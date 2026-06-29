@@ -20,7 +20,15 @@ const focus: MultiPoint = {
     .map((c) => [c.lng, c.lat]),
 };
 
-export function MapView({ entities }: { entities: Entity[] }) {
+export function MapView({
+  entities,
+  activeRegion,
+  onRegionClick,
+}: {
+  entities: Entity[];
+  activeRegion: Region | null;
+  onRegionClick: (r: Region) => void;
+}) {
   const projection = useMemo(
     () => geoMercator().fitExtent([[120, 90], [W - 120, H - 110]], focus),
     [],
@@ -53,9 +61,20 @@ export function MapView({ entities }: { entities: Entity[] }) {
             if (!pt) return null;
             const n = counts[region] ?? 0;
             const r = 8 + Math.sqrt(n) * 4;
+            const active = activeRegion === region;
             return (
-              <g key={region} transform={`translate(${pt[0]}, ${pt[1]})`}>
-                <circle r={r} fill="#5b8def33" stroke="#5b8def" strokeWidth={1.5} />
+              <g
+                key={region}
+                transform={`translate(${pt[0]}, ${pt[1]})`}
+                onClick={() => onRegionClick(region)}
+                style={{ cursor: "pointer" }}
+              >
+                <circle
+                  r={r}
+                  fill={active ? "#5b8def66" : "#5b8def33"}
+                  stroke="#5b8def"
+                  strokeWidth={active ? 3 : 1.5}
+                />
                 <text textAnchor="middle" dy="0.35em" className="fill-white text-[13px] font-semibold">
                   {n}
                 </text>

@@ -7,7 +7,8 @@
     "initiatives": ["bc-ai"],
     "region": "provincial",
     "tags": ["ecosystem", "community"],
-    "links": [{ "label": "bc-ai.ca", "url": "https://bc-ai.ca" }]
+    "links": [{ "label": "bc-ai.ca", "url": "https://bc-ai.ca" }],
+    "joinUrl": "https://bc-ai.ca"
   },
   {
     "id": "init-ed-ai",
@@ -26,7 +27,8 @@
     "initiatives": ["futureproof"],
     "region": "vancouver",
     "tags": ["festival", "ideas"],
-    "links": [{ "label": "futureproof.website", "url": "https://futureproof.website" }]
+    "links": [{ "label": "futureproof.website", "url": "https://futureproof.website" }],
+    "joinUrl": "https://futureproof.website"
   },
 
   {
@@ -37,7 +39,8 @@
     "initiatives": ["bc-ai"],
     "region": "provincial",
     "tags": ["nonprofit", "governance", "hub"],
-    "links": [{ "label": "bc-ai.ca", "url": "https://bc-ai.ca" }]
+    "links": [{ "label": "bc-ai.ca", "url": "https://bc-ai.ca" }],
+    "joinUrl": "https://bc-ai.ca"
   },
   {
     "id": "org-the-upgrade",
@@ -300,7 +303,8 @@
     "initiatives": ["futureproof"],
     "region": "vancouver",
     "tags": ["festival", "2026", "flagship"],
-    "links": [{ "label": "futureproof.website", "url": "https://futureproof.website" }]
+    "links": [{ "label": "futureproof.website", "url": "https://futureproof.website" }],
+    "joinUrl": "https://futureproof.website"
   },
   {
     "id": "event-web-summit-2026",

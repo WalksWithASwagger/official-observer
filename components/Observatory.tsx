@@ -29,6 +29,7 @@ import {
   type ColorMode,
   type EntityType,
   type Initiative,
+  type Region,
 } from "@/lib/types";
 import { EntityPanel } from "@/components/EntityPanel";
 import { FilterBar } from "@/components/FilterBar";
@@ -36,6 +37,7 @@ import { SearchBox } from "@/components/SearchBox";
 import { PulsePanel } from "@/components/PulsePanel";
 import { Scorecard } from "@/components/Scorecard";
 import { MapView } from "@/components/MapView";
+import { REGION_CENTROIDS } from "@/lib/regions";
 
 const DIMMED = "#334155";
 
@@ -125,6 +127,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
   const [hovered, setHovered] = useState<string | null>(null);
   const [colorMode, setColorMode] = useState<ColorMode>("initiative");
   const [view, setView] = useState<"graph" | "map">("graph");
+  const [regionFilter, setRegionFilter] = useState<Region | null>(null);
   const [types, setTypes] = useState<Set<EntityType>>(
     () => new Set(dataset.entities.map((e) => e.type)),
   );
@@ -150,10 +153,11 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
     for (const e of data.entities) {
       const typeOk = types.has(e.type);
       const initOk = e.initiatives.some((i) => initiatives.has(i));
-      if (typeOk && initOk) set.add(e.id);
+      const regionOk = !regionFilter || e.region === regionFilter;
+      if (typeOk && initOk && regionOk) set.add(e.id);
     }
     return set;
-  }, [data, types, initiatives]);
+  }, [data, types, initiatives, regionFilter]);
 
   const active = selected ?? hovered;
 
@@ -166,7 +170,16 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
 
   return (
     <div className="relative h-dvh w-full overflow-hidden bg-slate-950">
-      {view === "map" && <MapView entities={data.entities} />}
+      {view === "map" && (
+        <MapView
+          entities={data.entities}
+          activeRegion={regionFilter}
+          onRegionClick={(r) => {
+            setRegionFilter(r);
+            setView("graph");
+          }}
+        />
+      )}
       {view === "graph" && (
       <SigmaContainer
         style={{ height: "100%", width: "100%", background: "#020617" }}
@@ -213,6 +226,15 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
         onToggleInitiative={(i) => setInitiatives((s) => toggle(s, i))}
       />
       <SearchBox onSelect={(id) => setSelected(id)} />
+
+      {regionFilter && (
+        <button
+          onClick={() => setRegionFilter(null)}
+          className="absolute left-1/2 top-16 z-10 -translate-x-1/2 rounded-full border border-sky-500/40 bg-sky-500/15 px-3 py-1 text-xs font-medium text-sky-200 shadow-xl backdrop-blur hover:bg-sky-500/25"
+        >
+          Region: {REGION_CENTROIDS[regionFilter].label} ✕
+        </button>
+      )}
 
       <div className="absolute bottom-20 left-4 z-10 rounded-xl border border-white/10 bg-slate-900/80 p-3 text-slate-100 shadow-xl backdrop-blur">
         <div className="mb-2 flex items-center gap-1.5">
