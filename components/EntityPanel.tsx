@@ -30,7 +30,7 @@ export function EntityPanel({
   const connections = connectionsFor(entity.id);
 
   return (
-    <aside className="absolute right-4 top-4 z-20 flex max-h-[calc(100%-2rem)] w-80 flex-col overflow-hidden rounded-xl border border-white/10 bg-slate-900/90 text-slate-100 shadow-2xl backdrop-blur">
+    <aside className="absolute inset-x-2 bottom-2 z-30 flex max-h-[60vh] flex-col overflow-hidden rounded-xl border border-white/10 bg-slate-900/95 text-slate-100 shadow-2xl backdrop-blur sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-4 sm:max-h-[calc(100%-2rem)] sm:w-80">
       <div className="flex items-start justify-between gap-2 border-b border-white/10 p-4">
         <div>
           <span className="text-xs uppercase tracking-wider text-slate-400">

@@ -33,7 +33,7 @@ export function SearchBox({ onSelect }: { onSelect: (id: string) => void }) {
   );
 
   return (
-    <div className="absolute left-1/2 top-4 z-20 w-72 -translate-x-1/2">
+    <div className="absolute left-1/2 top-4 z-20 w-[min(18rem,calc(100vw-2rem))] -translate-x-1/2">
       <input
         value={query}
         onChange={(e) => {

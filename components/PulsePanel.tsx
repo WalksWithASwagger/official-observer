@@ -18,7 +18,7 @@ export function PulsePanel({ onSelect }: { onSelect: (id: string) => void }) {
   const countdown = useMemo(() => daysUntil(FUTUREPROOF_DATE), []);
 
   return (
-    <aside className="absolute bottom-4 right-4 z-10 w-64 rounded-xl border border-white/10 bg-slate-900/80 p-3 text-slate-100 shadow-xl backdrop-blur">
+    <aside className="absolute bottom-4 right-4 z-10 w-64 rounded-xl border border-white/10 bg-slate-900/80 p-3 text-slate-100 shadow-xl backdrop-blur max-sm:hidden">
       {countdown >= 0 && (
         <a
           href="https://futureproof.website"

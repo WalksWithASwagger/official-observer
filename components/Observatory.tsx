@@ -303,7 +303,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
         )}
       </div>
 
-      <Scorecard className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2" />
+      <Scorecard className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 max-sm:hidden" />
       <PulsePanel onSelect={(id) => setSelected(id)} />
         </>
       )}

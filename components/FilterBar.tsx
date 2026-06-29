@@ -47,7 +47,7 @@ export function FilterBar({
   onToggleInitiative: (i: Initiative) => void;
 }) {
   return (
-    <div className="absolute left-4 top-4 z-20 flex flex-col gap-2 rounded-xl border border-white/10 bg-slate-900/80 p-3 text-slate-100 shadow-xl backdrop-blur">
+    <div className="absolute left-4 top-16 z-20 flex max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-xl border border-white/10 bg-slate-900/80 p-3 text-slate-100 shadow-xl backdrop-blur sm:top-4">
       <div className="flex flex-wrap items-center gap-1.5">
         <span className="mr-1 text-xs uppercase tracking-wider text-slate-500">
           Initiative
