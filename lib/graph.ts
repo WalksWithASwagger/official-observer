@@ -1,6 +1,7 @@
 import Graph from "graphology";
 import forceAtlas2 from "graphology-layout-forceatlas2";
 import { INITIATIVES, type Dataset, type Entity } from "@/lib/types";
+import { ENTITY_ICONS } from "@/lib/icons";
 
 const NEUTRAL = "#94a3b8";
 
@@ -24,6 +25,8 @@ export function buildGraph(dataset: Dataset): Graph {
       entityType: entity.type,
       initiatives: entity.initiatives,
       color: initiativeColor(entity),
+      type: "image",
+      image: ENTITY_ICONS[entity.type],
       x: Math.cos(angle),
       y: Math.sin(angle),
       size: 4,

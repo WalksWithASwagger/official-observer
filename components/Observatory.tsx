@@ -9,7 +9,14 @@ import {
   useRegisterEvents,
   useSetSettings,
 } from "@react-sigma/core";
+import { createNodeImageProgram } from "@sigma/node-image";
 import type Graph from "graphology";
+
+const NodeImageProgram = createNodeImageProgram({
+  drawingMode: "background",
+  keepWithinCircle: true,
+  padding: 0.25,
+});
 
 import { dataset } from "@/lib/data";
 import { useDataset } from "@/lib/useDataset";
@@ -165,6 +172,8 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
         style={{ height: "100%", width: "100%", background: "#020617" }}
         settings={{
           allowInvalidContainer: true,
+          defaultNodeType: "image",
+          nodeProgramClasses: { image: NodeImageProgram },
           renderEdgeLabels: false,
           labelColor: { color: "#e2e8f0" },
           labelFont: "var(--font-geist-sans), system-ui, sans-serif",
