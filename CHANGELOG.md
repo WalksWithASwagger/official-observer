@@ -3,6 +3,18 @@
 All notable changes to The Observatory are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.4.1] — 2026-06-28
+
+Polish & hardening (no new features).
+
+### Added
+- **SEO** — `app/robots.ts` + `app/sitemap.ts`.
+- **Stronger data validator** — now also checks `data/events.json` (entityId
+  references resolve, `YYYY-MM-DD` dates), requires `https` on all URLs/joinUrls,
+  and warns on entities missing a `region`. Still gates the build via `prebuild`.
+- **Accessibility** — `aria-label`s on the search input (+ `type="search"`) and
+  the clear-region-filter control.
+
 ## [0.4.0] — 2026-06-28
 
 Phase 3/5 leftovers + polish.

@@ -43,6 +43,8 @@ export function SearchBox({ onSelect }: { onSelect: (id: string) => void }) {
         onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 150)}
         placeholder="Search the ecosystem…"
+        aria-label="Search the ecosystem"
+        type="search"
         className="w-full rounded-full border border-white/10 bg-slate-900/80 px-4 py-2 text-sm text-slate-100 shadow-xl outline-none backdrop-blur placeholder:text-slate-500 focus:border-sky-500/50"
       />
       {open && results.length > 0 && (

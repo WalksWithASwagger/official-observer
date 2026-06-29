@@ -239,6 +239,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
       {regionFilter && (
         <button
           onClick={() => setRegionFilter(null)}
+          aria-label="Clear region filter"
           className="absolute left-1/2 top-16 z-10 -translate-x-1/2 rounded-full border border-sky-500/40 bg-sky-500/15 px-3 py-1 text-xs font-medium text-sky-200 shadow-xl backdrop-blur hover:bg-sky-500/25"
         >
           Region: {REGION_CENTROIDS[regionFilter].label} ✕

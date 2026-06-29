@@ -6,6 +6,7 @@ import { dirname, join } from "node:path";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const entities = JSON.parse(readFileSync(join(root, "data/entities.json"), "utf8"));
 const relationships = JSON.parse(readFileSync(join(root, "data/relationships.json"), "utf8"));
+const events = JSON.parse(readFileSync(join(root, "data/events.json"), "utf8"));
 
 const TYPES = new Set(["person", "org", "project", "event", "initiative"]);
 const INITIATIVES = new Set(["bc-ai", "ed-ai", "futureproof"]);
@@ -27,6 +28,12 @@ for (const e of entities) {
     if (!INITIATIVES.has(i)) errors.push(`invalid initiative "${i}" on ${e.id}`);
   }
   if (e.region && !REGIONS.has(e.region)) errors.push(`invalid region "${e.region}" on ${e.id}`);
+  if (!e.region) warnings.push(`entity missing region (won't appear on the map): ${e.id}`);
+  // URLs must be https (public site, no mixed content / no javascript: URLs).
+  const urls = [e.joinUrl, ...(e.links ?? []).map((l) => l.url)].filter(Boolean);
+  for (const u of urls) {
+    if (!/^https:\/\//.test(u)) errors.push(`non-https URL "${u}" on ${e.id}`);
+  }
 }
 
 const referenced = new Set();
@@ -41,6 +48,12 @@ for (const e of entities) {
   if (!referenced.has(e.id)) warnings.push(`orphan node (no edges): ${e.id}`);
 }
 
+for (const ev of events) {
+  if (!ids.has(ev.entityId)) errors.push(`event "${ev.id}" references unknown entityId ${ev.entityId}`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(ev.date)) errors.push(`event "${ev.id}" has invalid date "${ev.date}" (expect YYYY-MM-DD)`);
+  if (ev.url && !/^https:\/\//.test(ev.url)) errors.push(`event "${ev.id}" has non-https url "${ev.url}"`);
+}
+
 for (const w of warnings) console.warn(`⚠ ${w}`);
 if (errors.length) {
   for (const e of errors) console.error(`✗ ${e}`);
@@ -48,5 +61,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `✓ data valid — ${entities.length} entities, ${relationships.length} relationships, ${warnings.length} warning(s), 0 person nodes.`,
+  `✓ data valid — ${entities.length} entities, ${relationships.length} relationships, ${events.length} events, ${warnings.length} warning(s), 0 person nodes.`,
 );
