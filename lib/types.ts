@@ -64,3 +64,13 @@ export const ENTITY_TYPE_LABELS: Record<EntityType, string> = {
   event: "Event",
   initiative: "Initiative",
 };
+
+export const ENTITY_TYPE_COLORS: Record<EntityType, string> = {
+  person: "#f472b6",
+  org: "#5b8def",
+  project: "#a78bfa",
+  event: "#2dd4a7",
+  initiative: "#f59e0b",
+};
+
+export type ColorMode = "initiative" | "type";

@@ -15,13 +15,18 @@ import { dataset } from "@/lib/data";
 import { buildGraph } from "@/lib/graph";
 import {
   ENTITY_TYPES,
+  ENTITY_TYPE_COLORS,
+  ENTITY_TYPE_LABELS,
   INITIATIVES,
+  type ColorMode,
   type EntityType,
   type Initiative,
 } from "@/lib/types";
 import { EntityPanel } from "@/components/EntityPanel";
 import { FilterBar } from "@/components/FilterBar";
 import { SearchBox } from "@/components/SearchBox";
+import { PulsePanel } from "@/components/PulsePanel";
+import { Scorecard } from "@/components/Scorecard";
 
 const DIMMED = "#334155";
 
@@ -29,12 +34,14 @@ function GraphController({
   graph,
   visible,
   active,
+  colorMode,
   onSelect,
   onHover,
 }: {
   graph: Graph;
   visible: Set<string>;
   active: string | null;
+  colorMode: ColorMode;
   onSelect: (id: string | null) => void;
   onHover: (id: string | null) => void;
 }) {
@@ -67,6 +74,10 @@ function GraphController({
           res.hidden = true;
           return res;
         }
+        res.color =
+          colorMode === "type"
+            ? ENTITY_TYPE_COLORS[data.entityType as EntityType] ?? data.color
+            : data.color;
         if (neighborhood && !neighborhood.has(node)) {
           res.color = DIMMED;
           res.label = "";
@@ -87,7 +98,7 @@ function GraphController({
         return res;
       },
     });
-  }, [setSettings, graph, visible, active]);
+  }, [setSettings, graph, visible, active, colorMode]);
 
   return null;
 }
@@ -102,12 +113,26 @@ export default function Observatory() {
 
   const [selected, setSelected] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
+  const [colorMode, setColorMode] = useState<ColorMode>("initiative");
   const [types, setTypes] = useState<Set<EntityType>>(
     () => new Set(dataset.entities.map((e) => e.type)),
   );
   const [initiatives, setInitiatives] = useState<Set<Initiative>>(
     () => new Set(INITIATIVES.map((i) => i.id)),
   );
+
+  // Deep link: read ?node= on mount, write it on selection change.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("node");
+    if (id && dataset.entities.some((e) => e.id === id)) setSelected(id);
+  }, []);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (selected) url.searchParams.set("node", selected);
+    else url.searchParams.delete("node");
+    window.history.replaceState(null, "", url);
+  }, [selected]);
 
   const visible = useMemo(() => {
     const set = new Set<string>();
@@ -146,6 +171,7 @@ export default function Observatory() {
           graph={graph}
           visible={visible}
           active={active}
+          colorMode={colorMode}
           onSelect={setSelected}
           onHover={setHovered}
         />
@@ -169,6 +195,46 @@ export default function Observatory() {
         onToggleInitiative={(i) => setInitiatives((s) => toggle(s, i))}
       />
       <SearchBox onSelect={(id) => setSelected(id)} />
+
+      <div className="absolute bottom-20 left-4 z-10 rounded-xl border border-white/10 bg-slate-900/80 p-3 text-slate-100 shadow-xl backdrop-blur">
+        <div className="mb-2 flex items-center gap-1.5">
+          <span className="text-[11px] uppercase tracking-wider text-slate-500">
+            Color by
+          </span>
+          {(["initiative", "type"] as ColorMode[]).map((m) => (
+            <button
+              key={m}
+              onClick={() => setColorMode(m)}
+              className={`rounded-full px-2 py-0.5 text-xs font-medium transition ${
+                colorMode === m
+                  ? "bg-white/10 text-white"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              {m}
+            </button>
+          ))}
+        </div>
+        <ul className="space-y-1">
+          {colorMode === "initiative"
+            ? INITIATIVES.map((i) => (
+                <li key={i.id} className="flex items-center gap-2 text-xs text-slate-300">
+                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: i.color }} />
+                  {i.label}
+                </li>
+              ))
+            : availableTypes.map((t) => (
+                <li key={t} className="flex items-center gap-2 text-xs text-slate-300">
+                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: ENTITY_TYPE_COLORS[t] }} />
+                  {ENTITY_TYPE_LABELS[t]}
+                </li>
+              ))}
+        </ul>
+      </div>
+
+      <Scorecard className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2" />
+      <PulsePanel onSelect={(id) => setSelected(id)} />
+
       <EntityPanel
         selectedId={selected}
         onSelect={(id) => setSelected(id)}
