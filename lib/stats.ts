@@ -1,4 +1,5 @@
-import { dataset } from "@/lib/data";
+import { dataset as staticDataset } from "@/lib/data";
+import type { Dataset } from "@/lib/types";
 
 export interface EcosystemStats {
   totalEntities: number;
@@ -13,7 +14,7 @@ export interface EcosystemStats {
   venues: number;
 }
 
-export function ecosystemStats(): EcosystemStats {
+export function ecosystemStats(dataset: Dataset = staticDataset): EcosystemStats {
   const { entities, relationships } = dataset;
 
   return {

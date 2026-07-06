@@ -17,3 +17,22 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
+
+/* Deep-space backdrop for the graph: faint colored glows on near-black so the
+   canvas has depth without competing with node colors. */
+.observatory-bg {
+  background:
+    radial-gradient(60rem 40rem at 12% -10%, rgba(56, 108, 239, 0.14), transparent 60%),
+    radial-gradient(50rem 36rem at 105% 110%, rgba(45, 212, 167, 0.10), transparent 60%),
+    radial-gradient(40rem 30rem at 85% -5%, rgba(245, 158, 11, 0.06), transparent 55%),
+    #020617;
+}
+
+::selection {
+  background: rgba(56, 189, 248, 0.35);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+}
