@@ -39,24 +39,28 @@ export function buildGraph(dataset: Dataset): Graph {
     graph.addEdge(rel.source, rel.target, {
       relType: rel.type,
       weight: rel.weight ?? 1,
-      color: "#d8dee9",
-      size: rel.weight ?? 1,
+      color: "#2b3a55",
+      size: 0.6 + (rel.weight ?? 1) * 0.4,
     });
   });
 
   // Size nodes by degree so hubs read as hubs.
   graph.forEachNode((node) => {
     const degree = graph.degree(node);
-    graph.setNodeAttribute(node, "size", 5 + Math.sqrt(degree) * 3);
+    graph.setNodeAttribute(node, "size", 6 + Math.sqrt(degree) * 3);
   });
 
   forceAtlas2.assign(graph, {
-    iterations: 300,
+    iterations: 400,
     settings: {
-      gravity: 1,
-      scalingRatio: 12,
+      gravity: 0.5,
+      scalingRatio: 24,
+      // Spread the spokes of high-degree hubs so the center isn't a hairball.
+      outboundAttractionDistribution: true,
+      edgeWeightInfluence: 1,
       barnesHutOptimize: false,
       adjustSizes: true,
+      slowDown: 2,
     },
   });
 

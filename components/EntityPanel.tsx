@@ -1,39 +1,47 @@
 "use client";
 
-import { entityById } from "@/lib/data";
 import {
+  ENTITY_TYPE_COLORS,
   ENTITY_TYPE_LABELS,
   INITIATIVES,
+  type Dataset,
   type Relationship,
 } from "@/lib/types";
-import { dataset } from "@/lib/data";
 
-function connectionsFor(id: string): { rel: Relationship; otherId: string }[] {
+function connectionsFor(
+  dataset: Dataset,
+  id: string,
+): { rel: Relationship; otherId: string }[] {
   return dataset.relationships
     .filter((r) => r.source === id || r.target === id)
     .map((r) => ({ rel: r, otherId: r.source === id ? r.target : r.source }));
 }
 
 export function EntityPanel({
+  dataset,
   selectedId,
   onSelect,
   onClose,
 }: {
+  dataset: Dataset;
   selectedId: string | null;
   onSelect: (id: string) => void;
   onClose: () => void;
 }) {
   if (!selectedId) return null;
-  const entity = entityById.get(selectedId);
+  const entity = dataset.entities.find((e) => e.id === selectedId);
   if (!entity) return null;
 
-  const connections = connectionsFor(entity.id);
+  const connections = connectionsFor(dataset, entity.id);
 
   return (
-    <aside className="absolute inset-x-2 bottom-2 z-30 flex max-h-[60vh] flex-col overflow-hidden rounded-xl border border-white/10 bg-slate-900/95 text-slate-100 shadow-2xl backdrop-blur sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-4 sm:max-h-[calc(100%-2rem)] sm:w-80">
+    <aside className="absolute inset-x-2 bottom-2 z-30 flex max-h-[60vh] flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/95 text-slate-100 shadow-2xl backdrop-blur-md sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-4 sm:max-h-[calc(100%-2rem)] sm:w-80">
       <div className="flex items-start justify-between gap-2 border-b border-white/10 p-4">
         <div>
-          <span className="text-xs uppercase tracking-wider text-slate-400">
+          <span
+            className="text-[11px] font-semibold uppercase tracking-[0.14em]"
+            style={{ color: ENTITY_TYPE_COLORS[entity.type] }}
+          >
             {ENTITY_TYPE_LABELS[entity.type]}
           </span>
           <h2 className="text-lg font-semibold leading-tight">{entity.name}</h2>
@@ -106,7 +114,7 @@ export function EntityPanel({
             </h3>
             <ul className="space-y-1">
               {connections.map(({ rel, otherId }) => {
-                const other = entityById.get(otherId);
+                const other = dataset.entities.find((e) => e.id === otherId);
                 if (!other) return null;
                 return (
                   <li key={`${rel.source}-${rel.target}-${rel.type}`}>

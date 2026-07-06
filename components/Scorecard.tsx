@@ -1,4 +1,5 @@
 import { ecosystemStats } from "@/lib/stats";
+import type { Dataset } from "@/lib/types";
 
 function StatCard({ value, label }: { value: number; label: string }) {
   return (
@@ -17,8 +18,14 @@ function Divider() {
   return <div className="w-px self-stretch bg-white/10" />;
 }
 
-export function Scorecard({ className }: { className?: string }) {
-  const stats = ecosystemStats();
+export function Scorecard({
+  dataset,
+  className,
+}: {
+  dataset?: Dataset;
+  className?: string;
+}) {
+  const stats = ecosystemStats(dataset);
 
   const cards: { value: number; label: string }[] = [
     { value: stats.totalEntities, label: "entities" },
@@ -32,7 +39,7 @@ export function Scorecard({ className }: { className?: string }) {
   return (
     <div
       className={[
-        "flex items-stretch divide-x divide-white/10 rounded-xl border border-white/10 bg-slate-900/80 shadow-xl backdrop-blur",
+        "flex items-stretch divide-x divide-white/10 rounded-2xl border border-white/10 bg-slate-900/75 shadow-xl backdrop-blur-md",
         className,
       ]
         .filter(Boolean)

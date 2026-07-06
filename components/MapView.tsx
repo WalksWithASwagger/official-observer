@@ -46,7 +46,7 @@ export function MapView({
   const offMap = (counts.provincial ?? 0) + (counts.national ?? 0);
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-slate-950">
+    <div className="absolute inset-0 flex items-center justify-center">
       <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full">
         <path
           d={path(bcGeo) ?? undefined}

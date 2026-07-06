@@ -2,10 +2,15 @@
 
 import { useMemo, useState } from "react";
 import MiniSearch from "minisearch";
-import { dataset } from "@/lib/data";
-import { ENTITY_TYPE_LABELS } from "@/lib/types";
+import { ENTITY_TYPE_LABELS, type Entity } from "@/lib/types";
 
-export function SearchBox({ onSelect }: { onSelect: (id: string) => void }) {
+export function SearchBox({
+  entities,
+  onSelect,
+}: {
+  entities: Entity[];
+  onSelect: (id: string) => void;
+}) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -16,7 +21,7 @@ export function SearchBox({ onSelect }: { onSelect: (id: string) => void }) {
       searchOptions: { prefix: true, fuzzy: 0.2, boost: { name: 2 } },
     });
     mini.addAll(
-      dataset.entities.map((e) => ({
+      entities.map((e) => ({
         id: e.id,
         name: e.name,
         blurb: e.blurb,
@@ -25,7 +30,7 @@ export function SearchBox({ onSelect }: { onSelect: (id: string) => void }) {
       })),
     );
     return mini;
-  }, []);
+  }, [entities]);
 
   const results = useMemo(
     () => (query.trim() ? index.search(query).slice(0, 8) : []),
@@ -33,7 +38,7 @@ export function SearchBox({ onSelect }: { onSelect: (id: string) => void }) {
   );
 
   return (
-    <div className="absolute left-1/2 top-4 z-20 w-[min(18rem,calc(100vw-2rem))] -translate-x-1/2">
+    <div className="absolute left-1/2 top-20 z-20 w-[min(18rem,calc(100vw-2rem))] -translate-x-1/2 sm:top-4">
       <input
         value={query}
         onChange={(e) => {

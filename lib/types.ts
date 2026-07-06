@@ -66,10 +66,12 @@ export const ENTITY_TYPE_LABELS: Record<EntityType, string> = {
   initiative: "Initiative",
 };
 
+// Categorical palette validated for colorblind separation against the dark
+// canvas (project must stay clearly apart from org-blue under protanopia).
 export const ENTITY_TYPE_COLORS: Record<EntityType, string> = {
   person: "#f472b6",
   org: "#5b8def",
-  project: "#a78bfa",
+  project: "#c084fc",
   event: "#2dd4a7",
   initiative: "#f59e0b",
 };
