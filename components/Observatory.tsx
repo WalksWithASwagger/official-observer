@@ -50,6 +50,7 @@ import {
   GraphFallback,
   webglSupported,
 } from "@/components/GraphErrorBoundary";
+import { StoryModes, initiativeFromParam } from "@/components/StoryModes";
 import { REGION_CENTROIDS } from "@/lib/regions";
 import { drawNodeHover } from "@/lib/rendering";
 
@@ -176,11 +177,14 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
   // Exclusion sets survive late data hydration: entities that arrive from the
   // live API after mount stay visible unless the user opted their group out.
   const [hiddenTypes, setHiddenTypes] = useState<Set<EntityType>>(
-    () => new Set(),
+    // Hub lens: hide orgs by default so the map opens on programs/initiatives.
+    () => new Set(["org"]),
   );
   const [hiddenInitiatives, setHiddenInitiatives] = useState<Set<Initiative>>(
     () => new Set(),
   );
+  const [focusMode, setFocusMode] = useState(false);
+  const [chapterBanner, setChapterBanner] = useState<Region | null>(null);
   // Assume WebGL during SSR; the client snapshot corrects it after hydration.
   const canWebgl = useSyncExternalStore(
     subscribeNoop,
@@ -188,11 +192,19 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
     () => true,
   );
 
-  // Deep link: read ?node= on mount (re-checked when live data hydrates),
-  // write it on selection change.
+  // Deep link + embed params: ?node= & ?initiative=
   const deepLink = useRef<string | null>(null);
+  const initiativeParam = useRef<Initiative | null>(null);
   useEffect(() => {
-    deepLink.current = new URLSearchParams(window.location.search).get("node");
+    const params = new URLSearchParams(window.location.search);
+    deepLink.current = params.get("node");
+    initiativeParam.current = initiativeFromParam(params.get("initiative"));
+    if (initiativeParam.current) {
+      const keep = initiativeParam.current;
+      setHiddenInitiatives(
+        new Set(INITIATIVES.map((i) => i.id).filter((id) => id !== keep)),
+      );
+    }
   }, []);
   useEffect(() => {
     const id = deepLink.current;
@@ -219,8 +231,14 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
       const regionOk = !regionFilter || e.region === regionFilter;
       if (typeOk && initOk && regionOk) set.add(e.id);
     }
+    if (focusMode && selected && graph.hasNode(selected)) {
+      const neighborhood = new Set<string>([selected, ...graph.neighbors(selected)]);
+      for (const id of [...set]) {
+        if (!neighborhood.has(id)) set.delete(id);
+      }
+    }
     return set;
-  }, [data, hiddenTypes, hiddenInitiatives, regionFilter]);
+  }, [data, hiddenTypes, hiddenInitiatives, regionFilter, focusMode, selected, graph]);
 
   const active = selected ?? hovered;
 
@@ -232,9 +250,11 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
   };
 
   const resetFilters = () => {
-    setHiddenTypes(new Set());
+    setHiddenTypes(new Set(["org"]));
     setHiddenInitiatives(new Set());
     setRegionFilter(null);
+    setFocusMode(false);
+    setChapterBanner(null);
   };
 
   return (
@@ -245,6 +265,8 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
           activeRegion={regionFilter}
           onRegionClick={(r) => {
             setRegionFilter(r);
+            setChapterBanner(r);
+            setHiddenTypes(new Set()); // show orgs in chapter lens
             setView("graph");
           }}
         />
@@ -343,13 +365,33 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
 
           {regionFilter && (
             <button
-              onClick={() => setRegionFilter(null)}
+              onClick={() => {
+                setRegionFilter(null);
+                setChapterBanner(null);
+              }}
               aria-label="Clear region filter"
               className="absolute left-1/2 top-16 z-10 -translate-x-1/2 rounded-full border border-sky-500/40 bg-sky-500/15 px-3 py-1 text-xs font-medium text-sky-200 shadow-xl backdrop-blur hover:bg-sky-500/25"
             >
               Region: {REGION_CENTROIDS[regionFilter].label} ✕
             </button>
           )}
+
+          {chapterBanner && (
+            <div className="absolute left-1/2 top-24 z-10 w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-white/10 bg-slate-900/85 p-3 text-sm shadow-xl backdrop-blur max-sm:hidden">
+              <div className="text-[10px] uppercase tracking-wider text-slate-500">
+                Chapter hub
+              </div>
+              <div className="font-medium text-slate-100">
+                {REGION_CENTROIDS[chapterBanner].label}
+              </div>
+              <p className="mt-1 text-xs text-slate-400">
+                Showing entities in this region. Toggle Focus after selecting a
+                node to isolate its neighborhood.
+              </p>
+            </div>
+          )}
+
+          <StoryModes dataset={data} onSelect={(id) => setSelected(id)} />
 
           <div className="absolute bottom-4 left-4 z-10 rounded-2xl border border-white/10 bg-slate-900/75 p-3 text-slate-100 shadow-xl backdrop-blur-md">
             <div className="flex items-center gap-1 rounded-full bg-white/5 p-0.5">
@@ -367,6 +409,38 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
                 </button>
               ))}
             </div>
+            {view === "graph" && (
+              <div className="mt-2 flex flex-wrap gap-1">
+                <button
+                  onClick={() =>
+                    setHiddenTypes((s) => {
+                      const next = new Set(s);
+                      if (next.has("org")) next.delete("org");
+                      else next.add("org");
+                      return next;
+                    })
+                  }
+                  className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition ${
+                    hiddenTypes.has("org")
+                      ? "bg-white/5 text-slate-400"
+                      : "bg-sky-500/15 text-sky-200"
+                  }`}
+                >
+                  {hiddenTypes.has("org") ? "Show orgs" : "Hub lens"}
+                </button>
+                <button
+                  onClick={() => setFocusMode((f) => !f)}
+                  disabled={!selected}
+                  className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition disabled:opacity-40 ${
+                    focusMode
+                      ? "bg-amber-500/20 text-amber-100"
+                      : "bg-white/5 text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  Focus
+                </button>
+              </div>
+            )}
             {view === "graph" && (
               <>
                 <div className="mt-2.5 flex items-center gap-1.5">
@@ -422,7 +496,12 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
             dataset={data}
             className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 max-sm:hidden"
           />
-          <PulsePanel onSelect={(id) => setSelected(id)} />
+          <PulsePanel dataset={data} onSelect={(id) => setSelected(id)} />
+          <PulsePanel
+            dataset={data}
+            compact
+            onSelect={(id) => setSelected(id)}
+          />
         </>
       )}
 

@@ -30,6 +30,8 @@ export interface Entity {
   tags?: string[];
   links?: EntityLink[];
   joinUrl?: string;
+  /** ISO date YYYY-MM-DD — used for Pulse when type is event */
+  nextDate?: string;
 }
 
 export interface Relationship {

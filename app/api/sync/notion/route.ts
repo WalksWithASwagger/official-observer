@@ -8,8 +8,8 @@ const NOTION_VERSION = "2022-06-28";
 
 function authorized(req: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
-  if (req.headers.get("x-vercel-cron")) return true; // Vercel-scheduled
-  if (!secret) return true; // no secret configured → allow (dev)
+  if (req.headers.get("x-vercel-cron")) return true;
+  if (!secret) return true;
   return req.headers.get("authorization") === `Bearer ${secret}`;
 }
 
@@ -17,7 +17,6 @@ function slugify(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-// Notion select/multi-select labels → the site's enum values.
 const TYPE_MAP: Record<string, EntityType> = {
   organization: "org",
   org: "org",
@@ -49,6 +48,10 @@ const multiNames = (p: any): string[] => (p?.multi_select ?? []).map((m: any) =>
 const urlVal = (p: any): string | null => p?.url ?? null;
 const numberVal = (p: any): number | null => (typeof p?.number === "number" ? p.number : null);
 const relationIds = (p: any): string[] => (p?.relation ?? []).map((r: any) => r.id);
+const dateStart = (p: any): string | null => {
+  const d = p?.date?.start;
+  return typeof d === "string" && /^\d{4}-\d{2}-\d{2}/.test(d) ? d.slice(0, 10) : null;
+};
 
 async function queryAll(dbId: string, token: string): Promise<any[]> {
   const out: any[] = [];
@@ -76,6 +79,13 @@ function isPublic(props: any): boolean {
   return s === "public";
 }
 
+/** Prefer Notion Stable ID; fall back to type-slug(name). */
+function resolveId(props: any, type: EntityType, name: string): string {
+  const stable = richText(props["Stable ID"]).trim();
+  if (stable && /^[a-z][a-z0-9-]*$/.test(stable)) return stable;
+  return `${type}-${slugify(name)}`;
+}
+
 export async function GET(req: NextRequest) {
   return run(req);
 }
@@ -95,8 +105,6 @@ async function run(req: NextRequest) {
   if (!entitiesDb) return NextResponse.json({ skipped: true, reason: "no OBSERVATORY_ENTITIES_DB_ID" });
   if (!hasDb()) return NextResponse.json({ skipped: true, reason: "no database configured" });
 
-  // 1) Entities — public only. Build the Notion-pageId → site-id lookup so
-  //    relationship endpoints can be resolved.
   const entityPages = await queryAll(entitiesDb, token);
   const entities: Entity[] = [];
   const pageIdToId = new Map<string, string>();
@@ -108,12 +116,12 @@ async function run(req: NextRequest) {
     if (!isPublic(props)) continue;
 
     const type = TYPE_MAP[(selectName(props["Type"]) ?? "").toLowerCase()];
-    if (!type || type === "person") continue; // never publish people / unknown types
+    if (!type || type === "person") continue;
 
     const name = title(props["Name"]);
     if (!name) continue;
 
-    const id = `${type}-${slugify(name)}`;
+    const id = resolveId(props, type, name);
     const links: { label: string; url: string }[] = [];
     const website = urlVal(props["Website"]);
     const linkedin = urlVal(props["LinkedIn"]);
@@ -136,10 +144,10 @@ async function run(req: NextRequest) {
       tags: multiNames(props["Tags"]),
       links: links.length ? links : undefined,
       joinUrl: urlVal(props["Join URL"]) ?? undefined,
+      nextDate: dateStart(props["Next Date"]) ?? undefined,
     });
   }
 
-  // 2) Relationships — public only, and only when BOTH endpoints are public entities.
   const relationships: Relationship[] = [];
   let relScanned = 0;
   if (relsDb) {
@@ -152,7 +160,7 @@ async function run(req: NextRequest) {
       const targetPage = relationIds(props["Target"])[0];
       const source = sourcePage && pageIdToId.get(sourcePage);
       const target = targetPage && pageIdToId.get(targetPage);
-      if (!source || !target) continue; // endpoint not a public entity → drop
+      if (!source || !target) continue;
       const relType = selectName(props["Type"]) ?? richText(props["Type"]) ?? "related";
       relationships.push({
         source,
@@ -163,7 +171,6 @@ async function run(req: NextRequest) {
     }
   }
 
-  // 3) Mirror into Postgres (full replace of the public set).
   await ensureSchema();
   const { sql } = await import("@vercel/postgres");
   await sql`DELETE FROM relationships`;

@@ -3,6 +3,24 @@
 All notable changes to The Observatory are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.5.0] — 2026-07-14
+
+Master-plan Horizons 0–4 foundations.
+
+### Added
+- **Stable ID** Notion property + sync preference (renames no longer break IDs).
+- **Next Date** on events → live Pulse feed; Futureproof pre/during/post modes.
+- **Hub lens** (orgs hidden by default) + **Focus** neighborhood mode + chapter hub strip.
+- **Story modes** (BC + AI, ED + AI, Futureproof guided tours).
+- **Entity pages** `/e/[id]` with OG + sitemap entries.
+- **Public API** `/api/v1/graph` + `/api/v1/entities/:id` (CC BY, CORS).
+- **docs/API.md**, **docs/AGENT-MEMORY.md**, **docs/DIRECTORY-BRIDGE.md**, curation waves + wave-gate.
+- Mobile compact Pulse strip; embed `node` / `initiative` query params; About embed snippet + JSON export link.
+
+### Changed
+- About page reflects Notion→Neon Public gate (no longer “no database”).
+- Pulse seed trimmed to future dates; package version `0.5.0`.
+
 ## [Unreleased]
 
 ### Fixed

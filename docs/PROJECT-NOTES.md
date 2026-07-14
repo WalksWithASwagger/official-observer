@@ -2,7 +2,7 @@
 
 The why, the architecture, and what's next. (User-facing intro lives in
 [README](../README.md); release history in [CHANGELOG](../CHANGELOG.md);
-curation workflow in [CURATION.md](./CURATION.md).)
+curation workflow in [CURATION.md](./CURATION.md); public API in [API.md](./API.md).)
 
 ## What this is
 
@@ -88,10 +88,14 @@ no Chatham House content, no funding figures, no AInBC governance dossier.
       (44 entities / 72 edges, including `joinUrl`). `NOTION_TOKEN` (varlock),
       Observatory DB IDs, `CRON_SECRET`, and `NEXT_PUBLIC_GRAPH_API` set on
       Vercel. Notion → Neon sync verified at 44 Public / 72 Public.
-- [~] **Phase 6 — Curate → pipeline** — schema + sync accept org/event/project/
-      initiative. First Projects-DB promotions are Public; continue Draft →
-      Public curation per [CURATION.md](./CURATION.md) (Ecosystem Map orgs,
-      Master Calendar events).
+- [~] **Phase 6 — Curate → pipeline** — continue Draft→Public waves
+      ([CURATION.md](./CURATION.md) W1–W5).
+- [x] **Master plan H0–H1** — Stable IDs, Next Date→Pulse, hub lens + Focus.
+- [x] **Master plan H2 gates** — W1–W5 playbook + `scripts/wave-gate.mjs`; chapter spine tagged; partner batches remain curation cadence.
+- [x] **Master plan H3 foundations** — `/e/[id]` pages, story modes, mobile Pulse.
+- [x] **Master plan H4 foundations** — `/api/v1/*`, [API.md](./API.md), [DIRECTORY-BRIDGE.md](./DIRECTORY-BRIDGE.md), embed allowlist process.
+- [ ] **H2 volume** — partner batches toward 80–120 Public (ongoing curation).
+- [ ] **H3 polish** — richer chapter hubs; Futureproof during-mode spotlight.
 
 ## Canonical Notion layer
 

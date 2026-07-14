@@ -69,6 +69,13 @@ export function EntityPanel({
           </a>
         )}
 
+        <a
+          href={`/e/${entity.id}`}
+          className="mt-2 block text-xs text-slate-500 hover:text-sky-400"
+        >
+          Permalink / share page ↗
+        </a>
+
         <div className="mt-3 flex flex-wrap gap-1.5">
           {entity.initiatives.map((id) => {
             const init = INITIATIVES.find((i) => i.id === id);

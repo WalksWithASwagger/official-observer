@@ -13,7 +13,8 @@
       "monthly"
     ],
     "links": [],
-    "joinUrl": "https://bc-ai.ca"
+    "joinUrl": "https://bc-ai.ca",
+    "nextDate": "2026-07-17"
   },
   {
     "id": "event-ai-in-education-meetup",
@@ -29,7 +30,8 @@
       "education"
     ],
     "links": [],
-    "joinUrl": "https://bc-ai.ca"
+    "joinUrl": "https://bc-ai.ca",
+    "nextDate": "2026-07-15"
   },
   {
     "id": "event-bc-ai-film-club",
@@ -46,7 +48,8 @@
       "media"
     ],
     "links": [],
-    "joinUrl": "https://bc-ai.ca"
+    "joinUrl": "https://bc-ai.ca",
+    "nextDate": "2026-08-13"
   },
   {
     "id": "event-bc-ai-office-hours",
@@ -63,7 +66,8 @@
       "community"
     ],
     "links": [],
-    "joinUrl": "https://bc-ai.ca"
+    "joinUrl": "https://bc-ai.ca",
+    "nextDate": "2026-07-18"
   },
   {
     "id": "event-comox-valley-ai",
@@ -80,7 +84,8 @@
       "regional"
     ],
     "links": [],
-    "joinUrl": "https://bc-ai.ca"
+    "joinUrl": "https://bc-ai.ca",
+    "nextDate": "2026-09-02"
   },
   {
     "id": "event-fraser-valley-ai",
@@ -98,7 +103,8 @@
       "forming"
     ],
     "links": [],
-    "joinUrl": "https://bc-ai.ca"
+    "joinUrl": "https://bc-ai.ca",
+    "nextDate": "2026-08-20"
   },
   {
     "id": "event-futureproof-festival-2026",
@@ -120,7 +126,8 @@
         "label": "Website"
       }
     ],
-    "joinUrl": "https://futureproof.website"
+    "joinUrl": "https://futureproof.website",
+    "nextDate": "2026-10-28"
   },
   {
     "id": "event-life-sciences-ai-sig",
@@ -136,7 +143,8 @@
       "life-sciences"
     ],
     "links": [],
-    "joinUrl": "https://bc-ai.ca"
+    "joinUrl": "https://bc-ai.ca",
+    "nextDate": "2026-08-27"
   },
   {
     "id": "event-mac-mind-ai-consciousness",
@@ -152,7 +160,8 @@
       "philosophy"
     ],
     "links": [],
-    "joinUrl": "https://bc-ai.ca"
+    "joinUrl": "https://bc-ai.ca",
+    "nextDate": "2026-08-06"
   },
   {
     "id": "event-vancouver-ai-meetup",
@@ -166,10 +175,12 @@
     "tags": [
       "meetup",
       "flagship",
-      "monthly"
+      "monthly",
+      "chapter"
     ],
     "links": [],
-    "joinUrl": "https://bc-ai.ca"
+    "joinUrl": "https://bc-ai.ca",
+    "nextDate": "2026-07-29"
   },
   {
     "id": "event-web-summit-vancouver-2026",
@@ -184,7 +195,14 @@
       "conference",
       "2026"
     ],
-    "links": []
+    "links": [
+      {
+        "label": "Website",
+        "url": "https://vancouver.websummit.com/"
+      }
+    ],
+    "joinUrl": "https://vancouver.websummit.com/",
+    "nextDate": "2026-05-11"
   },
   {
     "id": "initiative-bc-ai",
@@ -560,7 +578,8 @@
     "region": "victoria",
     "tags": [
       "partner",
-      "ecosystem"
+      "ecosystem",
+      "chapter"
     ],
     "links": []
   },

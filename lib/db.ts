@@ -15,10 +15,11 @@ export async function ensureSchema(): Promise<void> {
     region text,
     tags jsonb NOT NULL DEFAULT '[]'::jsonb,
     links jsonb NOT NULL DEFAULT '[]'::jsonb,
-    join_url text
+    join_url text,
+    next_date text
   )`;
-  // Existing DBs created before join_url — add column if missing.
   await sql`ALTER TABLE entities ADD COLUMN IF NOT EXISTS join_url text`;
+  await sql`ALTER TABLE entities ADD COLUMN IF NOT EXISTS next_date text`;
   await sql`CREATE TABLE IF NOT EXISTS relationships (
     source text NOT NULL,
     target text NOT NULL,
@@ -30,7 +31,7 @@ export async function ensureSchema(): Promise<void> {
 
 export async function getGraph(): Promise<Dataset> {
   const ents = await sql`
-    SELECT id, type, name, blurb, initiatives, region, tags, links, join_url
+    SELECT id, type, name, blurb, initiatives, region, tags, links, join_url, next_date
     FROM entities
   `;
   const rels = await sql`SELECT source, target, type, weight FROM relationships`;
@@ -45,6 +46,7 @@ export async function getGraph(): Promise<Dataset> {
     tags: r.tags ?? undefined,
     links: r.links ?? undefined,
     joinUrl: r.join_url ?? undefined,
+    nextDate: r.next_date ?? undefined,
   }));
 
   const relationships: Relationship[] = rels.rows.map((r) => ({
@@ -57,23 +59,29 @@ export async function getGraph(): Promise<Dataset> {
   return { entities, relationships };
 }
 
+export async function getEntity(id: string): Promise<Entity | null> {
+  const { entities } = await getGraph();
+  return entities.find((e) => e.id === id) ?? null;
+}
+
 export async function upsertEntities(entities: Entity[]): Promise<number> {
   for (const e of entities) {
     await sql`
-      INSERT INTO entities (id, type, name, blurb, initiatives, region, tags, links, join_url)
+      INSERT INTO entities (id, type, name, blurb, initiatives, region, tags, links, join_url, next_date)
       VALUES (
         ${e.id}, ${e.type}, ${e.name}, ${e.blurb ?? ""},
         ${JSON.stringify(e.initiatives ?? [])}::jsonb,
         ${e.region ?? null},
         ${JSON.stringify(e.tags ?? [])}::jsonb,
         ${JSON.stringify(e.links ?? [])}::jsonb,
-        ${e.joinUrl ?? null}
+        ${e.joinUrl ?? null},
+        ${e.nextDate ?? null}
       )
       ON CONFLICT (id) DO UPDATE SET
         type = EXCLUDED.type, name = EXCLUDED.name, blurb = EXCLUDED.blurb,
         initiatives = EXCLUDED.initiatives, region = EXCLUDED.region,
         tags = EXCLUDED.tags, links = EXCLUDED.links,
-        join_url = EXCLUDED.join_url
+        join_url = EXCLUDED.join_url, next_date = EXCLUDED.next_date
     `;
   }
   return entities.length;

@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS entities (
   region text,
   tags jsonb NOT NULL DEFAULT '[]'::jsonb,
   links jsonb NOT NULL DEFAULT '[]'::jsonb,
-  join_url text
+  join_url text,
+  next_date text
 );
 
 CREATE TABLE IF NOT EXISTS relationships (
