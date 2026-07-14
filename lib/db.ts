@@ -14,8 +14,11 @@ export async function ensureSchema(): Promise<void> {
     initiatives jsonb NOT NULL DEFAULT '[]'::jsonb,
     region text,
     tags jsonb NOT NULL DEFAULT '[]'::jsonb,
-    links jsonb NOT NULL DEFAULT '[]'::jsonb
+    links jsonb NOT NULL DEFAULT '[]'::jsonb,
+    join_url text
   )`;
+  // Existing DBs created before join_url — add column if missing.
+  await sql`ALTER TABLE entities ADD COLUMN IF NOT EXISTS join_url text`;
   await sql`CREATE TABLE IF NOT EXISTS relationships (
     source text NOT NULL,
     target text NOT NULL,
@@ -26,7 +29,10 @@ export async function ensureSchema(): Promise<void> {
 }
 
 export async function getGraph(): Promise<Dataset> {
-  const ents = await sql`SELECT id, type, name, blurb, initiatives, region, tags, links FROM entities`;
+  const ents = await sql`
+    SELECT id, type, name, blurb, initiatives, region, tags, links, join_url
+    FROM entities
+  `;
   const rels = await sql`SELECT source, target, type, weight FROM relationships`;
 
   const entities: Entity[] = ents.rows.map((r) => ({
@@ -38,6 +44,7 @@ export async function getGraph(): Promise<Dataset> {
     region: r.region ?? undefined,
     tags: r.tags ?? undefined,
     links: r.links ?? undefined,
+    joinUrl: r.join_url ?? undefined,
   }));
 
   const relationships: Relationship[] = rels.rows.map((r) => ({
@@ -53,18 +60,20 @@ export async function getGraph(): Promise<Dataset> {
 export async function upsertEntities(entities: Entity[]): Promise<number> {
   for (const e of entities) {
     await sql`
-      INSERT INTO entities (id, type, name, blurb, initiatives, region, tags, links)
+      INSERT INTO entities (id, type, name, blurb, initiatives, region, tags, links, join_url)
       VALUES (
         ${e.id}, ${e.type}, ${e.name}, ${e.blurb ?? ""},
         ${JSON.stringify(e.initiatives ?? [])}::jsonb,
         ${e.region ?? null},
         ${JSON.stringify(e.tags ?? [])}::jsonb,
-        ${JSON.stringify(e.links ?? [])}::jsonb
+        ${JSON.stringify(e.links ?? [])}::jsonb,
+        ${e.joinUrl ?? null}
       )
       ON CONFLICT (id) DO UPDATE SET
         type = EXCLUDED.type, name = EXCLUDED.name, blurb = EXCLUDED.blurb,
         initiatives = EXCLUDED.initiatives, region = EXCLUDED.region,
-        tags = EXCLUDED.tags, links = EXCLUDED.links
+        tags = EXCLUDED.tags, links = EXCLUDED.links,
+        join_url = EXCLUDED.join_url
     `;
   }
   return entities.length;

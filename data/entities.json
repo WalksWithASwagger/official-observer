@@ -1,365 +1,727 @@
 [
   {
-    "id": "init-bc-ai",
-    "type": "initiative",
-    "name": "BC + AI",
-    "blurb": "An ecosystem initiative growing an ethical, community-led AI scene across British Columbia.",
-    "initiatives": ["bc-ai"],
-    "region": "provincial",
-    "tags": ["ecosystem", "community"],
-    "links": [{ "label": "bc-ai.ca", "url": "https://bc-ai.ca" }],
-    "joinUrl": "https://bc-ai.ca"
-  },
-  {
-    "id": "init-ed-ai",
-    "type": "initiative",
-    "name": "ED + AI",
-    "blurb": "Education + AI: building AI literacy and equity for educators, students, and tutors.",
-    "initiatives": ["ed-ai"],
-    "region": "provincial",
-    "tags": ["education", "literacy"]
-  },
-  {
-    "id": "init-futureproof",
-    "type": "initiative",
-    "name": "Futureproof",
-    "blurb": "An ideas festival where AI is the moment, not the genre. Build what lasts.",
-    "initiatives": ["futureproof"],
-    "region": "vancouver",
-    "tags": ["festival", "ideas"],
-    "links": [{ "label": "futureproof.website", "url": "https://futureproof.website" }],
-    "joinUrl": "https://futureproof.website"
-  },
-
-  {
-    "id": "org-bcai-assoc",
-    "type": "org",
-    "name": "BC AI Ecosystem Association",
-    "blurb": "Registered BC nonprofit serving as the umbrella for community building, education, and partnerships, with an Indigenous-leadership focus.",
-    "initiatives": ["bc-ai"],
-    "region": "provincial",
-    "tags": ["nonprofit", "governance", "hub"],
-    "links": [{ "label": "bc-ai.ca", "url": "https://bc-ai.ca" }],
-    "joinUrl": "https://bc-ai.ca"
-  },
-  {
-    "id": "org-the-upgrade",
-    "type": "org",
-    "name": "The Upgrade",
-    "blurb": "AI training studio delivering hands-on, responsible-AI upskilling for creative and media professionals.",
-    "initiatives": ["ed-ai", "bc-ai"],
-    "region": "vancouver",
-    "tags": ["training", "education"]
-  },
-  {
-    "id": "org-space-centre",
-    "type": "org",
-    "name": "H.R. MacMillan Space Centre",
-    "blurb": "Vancouver venue partner hosting the monthly Vancouver AI meetup and the Futureproof Festival.",
-    "initiatives": ["bc-ai", "futureproof"],
-    "region": "vancouver",
-    "tags": ["venue", "partner"]
-  },
-  {
-    "id": "org-ethos-lab",
-    "type": "org",
-    "name": "Ethọ́s Lab",
-    "blurb": "Vancouver learning space hosting the AI in Education meetup and youth-focused programming.",
-    "initiatives": ["ed-ai", "bc-ai"],
-    "region": "vancouver",
-    "tags": ["venue", "youth", "education"]
-  },
-  {
-    "id": "org-multimodal-lab",
-    "type": "org",
-    "name": "Multimodal Media Lab (SFU)",
-    "blurb": "SFU lab and venue partner for the BC + AI Film Club and generative media work.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["venue", "academic", "media"]
-  },
-  {
-    "id": "org-friends-quarters",
-    "type": "org",
-    "name": "Friends Quarters",
-    "blurb": "Vancouver venue hosting the community AI Happy Hour socials.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["venue"]
-  },
-  {
-    "id": "org-ubc",
-    "type": "org",
-    "name": "UBC",
-    "blurb": "University of British Columbia — research partner across emerging media, cognitive systems, and neuroscience.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["academic", "research"]
-  },
-  {
-    "id": "org-northeastern-van",
-    "type": "org",
-    "name": "Northeastern University Vancouver",
-    "blurb": "Vancouver campus collaborating on AI research and community programming.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["academic", "research"]
-  },
-  {
-    "id": "org-innovate-bc",
-    "type": "org",
-    "name": "Innovate BC",
-    "blurb": "Provincial innovation agency and ecosystem partner supporting BC's tech and AI sectors.",
-    "initiatives": ["bc-ai"],
-    "region": "provincial",
-    "tags": ["partner", "government"]
-  },
-  {
-    "id": "org-bc-ministry-ai",
-    "type": "org",
-    "name": "BC Ministry of AI",
-    "blurb": "Provincial ministry engaging BC + AI as a stakeholder in responsible-AI policy.",
-    "initiatives": ["bc-ai"],
-    "region": "provincial",
-    "tags": ["government", "policy"]
-  },
-  {
-    "id": "org-indigenomics",
-    "type": "org",
-    "name": "Indigenomics Institute",
-    "blurb": "Indigenous economic leadership organization informing BC + AI's Indigenous-led approach.",
-    "initiatives": ["bc-ai"],
-    "region": "provincial",
-    "tags": ["indigenous", "partner", "governance"]
-  },
-  {
-    "id": "org-squamish-nation",
-    "type": "org",
-    "name": "Squamish Nation",
-    "blurb": "Indigenous community partner in BC + AI's relationship-building work.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["indigenous", "partner"]
-  },
-  {
-    "id": "org-genome-bc",
-    "type": "org",
-    "name": "Genome BC",
-    "blurb": "Genomics organization engaged as a stakeholder in the Life Sciences AI conversation.",
-    "initiatives": ["bc-ai"],
-    "region": "provincial",
-    "tags": ["life-sciences", "partner"]
-  },
-  {
-    "id": "org-viatec",
-    "type": "org",
-    "name": "VIATEC",
-    "blurb": "Victoria Innovation, Advanced Technology & Entrepreneurship Council — a regional ecosystem peer.",
-    "initiatives": ["bc-ai"],
-    "region": "victoria",
-    "tags": ["partner", "ecosystem"]
-  },
-  {
-    "id": "org-real-youth",
-    "type": "org",
-    "name": "Real Youth",
-    "blurb": "Youth-serving organization partnering on advisory and programming.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["youth", "partner"]
-  },
-  {
-    "id": "org-rival",
-    "type": "org",
-    "name": "Rival Technologies",
-    "blurb": "Vancouver technology company and community sponsor (hackathon support).",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["sponsor", "industry"]
-  },
-  {
-    "id": "org-segev",
-    "type": "org",
-    "name": "Segev Law",
-    "blurb": "Law firm providing legal support as a community sponsor.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["sponsor", "legal"]
-  },
-  {
-    "id": "org-amii",
-    "type": "org",
-    "name": "Amii",
-    "blurb": "Alberta Machine Intelligence Institute — a national AI institute and partner.",
-    "initiatives": ["bc-ai"],
-    "region": "national",
-    "tags": ["academic", "partner", "national"]
-  },
-  {
-    "id": "org-mila",
-    "type": "org",
-    "name": "Mila",
-    "blurb": "Montreal AI research institute — a national partner across graduate networks.",
-    "initiatives": ["bc-ai"],
-    "region": "national",
-    "tags": ["academic", "partner", "national"]
-  },
-  {
-    "id": "org-vector",
-    "type": "org",
-    "name": "Vector Institute",
-    "blurb": "Toronto AI research institute — a national partner in the CIFAR network.",
-    "initiatives": ["bc-ai"],
-    "region": "national",
-    "tags": ["academic", "partner", "national"]
-  },
-
-  {
-    "id": "event-vancouver-ai-meetup",
+    "id": "event-ai-happy-hour",
     "type": "event",
-    "name": "Vancouver AI Meetup",
-    "blurb": "The flagship monthly meetup — keynotes and community at the MacMillan Space Centre, 150–250+ attendees.",
-    "initiatives": ["bc-ai"],
+    "name": "AI Happy Hour",
+    "blurb": "Casual monthly social for the AI community in Vancouver.",
+    "initiatives": [
+      "bc-ai"
+    ],
     "region": "vancouver",
-    "tags": ["meetup", "flagship", "monthly"]
+    "tags": [
+      "social",
+      "monthly"
+    ],
+    "links": [],
+    "joinUrl": "https://bc-ai.ca"
   },
   {
-    "id": "event-ed-ai-meetup",
+    "id": "event-ai-in-education-meetup",
     "type": "event",
     "name": "AI in Education Meetup",
     "blurb": "Recurring gathering of teachers, professors, students, and tutors exploring AI in the classroom.",
-    "initiatives": ["ed-ai"],
+    "initiatives": [
+      "ed-ai"
+    ],
     "region": "vancouver",
-    "tags": ["meetup", "education"]
+    "tags": [
+      "meetup",
+      "education"
+    ],
+    "links": [],
+    "joinUrl": "https://bc-ai.ca"
+  },
+  {
+    "id": "event-bc-ai-film-club",
+    "type": "event",
+    "name": "BC + AI Film Club",
+    "blurb": "Monthly gathering for AI animation, VFX, and generative film workflows \u2014 every human in every loop.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "meetup",
+      "film",
+      "media"
+    ],
+    "links": [],
+    "joinUrl": "https://bc-ai.ca"
+  },
+  {
+    "id": "event-bc-ai-office-hours",
+    "type": "event",
+    "name": "BC + AI Office Hours",
+    "blurb": "Weekly Friday peer-support and project round-robin for community members across the ecosystem.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "weekly",
+      "coaching",
+      "community"
+    ],
+    "links": [],
+    "joinUrl": "https://bc-ai.ca"
   },
   {
     "id": "event-comox-valley-ai",
     "type": "event",
     "name": "Comox Valley AI",
     "blurb": "Regional chapter on Vancouver Island focused on data sovereignty, education, and local builder culture.",
-    "initiatives": ["bc-ai"],
+    "initiatives": [
+      "bc-ai"
+    ],
     "region": "comox-valley",
-    "tags": ["meetup", "chapter", "regional"]
+    "tags": [
+      "meetup",
+      "chapter",
+      "regional"
+    ],
+    "links": [],
+    "joinUrl": "https://bc-ai.ca"
   },
   {
     "id": "event-fraser-valley-ai",
     "type": "event",
     "name": "Fraser Valley AI",
     "blurb": "Forming regional chapter serving business owners and builders in the Fraser Valley.",
-    "initiatives": ["bc-ai"],
+    "initiatives": [
+      "bc-ai"
+    ],
     "region": "fraser-valley",
-    "tags": ["meetup", "chapter", "regional", "forming"]
+    "tags": [
+      "meetup",
+      "chapter",
+      "regional",
+      "forming"
+    ],
+    "links": [],
+    "joinUrl": "https://bc-ai.ca"
   },
   {
-    "id": "event-film-club",
-    "type": "event",
-    "name": "BC + AI Film Club",
-    "blurb": "Monthly gathering for AI animation, VFX, and generative film workflows — every human in every loop.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["meetup", "film", "media"]
-  },
-  {
-    "id": "event-office-hours",
-    "type": "event",
-    "name": "BC + AI Office Hours",
-    "blurb": "Weekly Friday peer-support and project round-robin for community members across the ecosystem.",
-    "initiatives": ["bc-ai"],
-    "region": "provincial",
-    "tags": ["weekly", "coaching", "community"]
-  },
-  {
-    "id": "event-mac",
-    "type": "event",
-    "name": "MAC — Mind, AI & Consciousness",
-    "blurb": "Subgroup exploring philosophy, AI, and consciousness through regular discussion sessions.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["subgroup", "philosophy"]
-  },
-  {
-    "id": "event-ai-happy-hour",
-    "type": "event",
-    "name": "AI Happy Hour",
-    "blurb": "Casual monthly social for the AI community in Vancouver.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["social", "monthly"]
-  },
-  {
-    "id": "event-life-sciences-sig",
-    "type": "event",
-    "name": "Life Sciences AI SIG",
-    "blurb": "Special interest group convening health, biotech, and clinical professionals around responsible AI.",
-    "initiatives": ["bc-ai"],
-    "region": "vancouver",
-    "tags": ["subgroup", "life-sciences"]
-  },
-  {
-    "id": "event-futureproof-2026",
+    "id": "event-futureproof-festival-2026",
     "type": "event",
     "name": "Futureproof Festival 2026",
-    "blurb": "Inaugural ideas festival, Oct 28–30 2026 at the H.R. MacMillan Space Centre — pillars of ethics, creativity, and community.",
-    "initiatives": ["futureproof"],
+    "blurb": "Inaugural ideas festival, Oct 28\u201330 2026 at the H.R. MacMillan Space Centre \u2014 pillars of ethics, creativity, and community.",
+    "initiatives": [
+      "futureproof"
+    ],
     "region": "vancouver",
-    "tags": ["festival", "2026", "flagship"],
-    "links": [{ "label": "futureproof.website", "url": "https://futureproof.website" }],
+    "tags": [
+      "festival",
+      "2026",
+      "flagship"
+    ],
+    "links": [
+      {
+        "url": "https://futureproof.website",
+        "label": "Website"
+      }
+    ],
     "joinUrl": "https://futureproof.website"
   },
   {
-    "id": "event-web-summit-2026",
+    "id": "event-life-sciences-ai-sig",
+    "type": "event",
+    "name": "Life Sciences AI SIG",
+    "blurb": "Special interest group convening health, biotech, and clinical professionals around responsible AI.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "subgroup",
+      "life-sciences"
+    ],
+    "links": [],
+    "joinUrl": "https://bc-ai.ca"
+  },
+  {
+    "id": "event-mac-mind-ai-consciousness",
+    "type": "event",
+    "name": "MAC \u2014 Mind, AI & Consciousness",
+    "blurb": "Subgroup exploring philosophy, AI, and consciousness through regular discussion sessions.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "subgroup",
+      "philosophy"
+    ],
+    "links": [],
+    "joinUrl": "https://bc-ai.ca"
+  },
+  {
+    "id": "event-vancouver-ai-meetup",
+    "type": "event",
+    "name": "Vancouver AI Meetup",
+    "blurb": "The flagship monthly meetup \u2014 keynotes and community at the MacMillan Space Centre, 150\u2013250+ attendees.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "meetup",
+      "flagship",
+      "monthly"
+    ],
+    "links": [],
+    "joinUrl": "https://bc-ai.ca"
+  },
+  {
+    "id": "event-web-summit-vancouver-2026",
     "type": "event",
     "name": "Web Summit Vancouver 2026",
     "blurb": "Global tech conference (May 2026) where BC + AI coordinated a community presence.",
-    "initiatives": ["bc-ai"],
+    "initiatives": [
+      "bc-ai"
+    ],
     "region": "vancouver",
-    "tags": ["conference", "2026"]
+    "tags": [
+      "conference",
+      "2026"
+    ],
+    "links": []
   },
-
   {
-    "id": "proj-rap",
-    "type": "project",
-    "name": "Responsible AI Professional Program",
-    "blurb": "Cohort-based certification training practitioners to deploy AI responsibly; Cohort #1 ran in 2026.",
-    "initiatives": ["ed-ai", "bc-ai"],
+    "id": "initiative-bc-ai",
+    "type": "initiative",
+    "name": "BC + AI",
+    "blurb": "An ecosystem initiative growing an ethical, community-led AI scene across British Columbia.",
+    "initiatives": [
+      "bc-ai"
+    ],
     "region": "provincial",
-    "tags": ["certification", "responsible-ai"]
+    "tags": [
+      "ecosystem",
+      "community"
+    ],
+    "links": [
+      {
+        "url": "https://bc-ai.ca",
+        "label": "Website"
+      }
+    ],
+    "joinUrl": "https://bc-ai.ca"
   },
   {
-    "id": "proj-wild-salmon",
-    "type": "project",
-    "name": "Wild Salmon Programme",
-    "blurb": "An initiative to repatriate BC AI talent with coordinated investment and support.",
-    "initiatives": ["bc-ai"],
+    "id": "initiative-ed-ai",
+    "type": "initiative",
+    "name": "ED + AI",
+    "blurb": "Education + AI: building AI literacy and equity for educators, students, and tutors.",
+    "initiatives": [
+      "ed-ai"
+    ],
     "region": "provincial",
-    "tags": ["talent", "strategy"]
+    "tags": [
+      "education",
+      "literacy"
+    ],
+    "links": [
+      {
+        "url": "https://bc-ai.ca",
+        "label": "Website"
+      }
+    ],
+    "joinUrl": "https://bc-ai.ca"
   },
   {
-    "id": "proj-bc-ai-directory",
+    "id": "initiative-futureproof",
+    "type": "initiative",
+    "name": "Futureproof",
+    "blurb": "An ideas festival where AI is the moment, not the genre. Build what lasts.",
+    "initiatives": [
+      "futureproof"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "festival",
+      "ideas"
+    ],
+    "links": [
+      {
+        "url": "https://futureproof.website",
+        "label": "Website"
+      }
+    ],
+    "joinUrl": "https://futureproof.website"
+  },
+  {
+    "id": "org-amii",
+    "type": "org",
+    "name": "Amii",
+    "blurb": "Alberta Machine Intelligence Institute \u2014 a national AI institute and partner.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "national",
+    "tags": [
+      "academic",
+      "partner",
+      "national"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-bc-ai-ecosystem-association",
+    "type": "org",
+    "name": "BC AI Ecosystem Association",
+    "blurb": "Registered BC nonprofit serving as the umbrella for community building, education, and partnerships, with an Indigenous-leadership focus.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "nonprofit",
+      "governance",
+      "hub"
+    ],
+    "links": [
+      {
+        "url": "https://bc-ai.ca",
+        "label": "Website"
+      }
+    ],
+    "joinUrl": "https://bc-ai.ca"
+  },
+  {
+    "id": "org-bc-ministry-of-ai",
+    "type": "org",
+    "name": "BC Ministry of AI",
+    "blurb": "Provincial ministry engaging BC + AI as a stakeholder in responsible-AI policy.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "government",
+      "policy"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-eth-s-lab",
+    "type": "org",
+    "name": "Eth\u1ecd\u0301s Lab",
+    "blurb": "Vancouver learning space hosting the AI in Education meetup and youth-focused programming.",
+    "initiatives": [
+      "ed-ai",
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "venue",
+      "youth",
+      "education"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-friends-quarters",
+    "type": "org",
+    "name": "Friends Quarters",
+    "blurb": "Vancouver venue hosting the community AI Happy Hour socials.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "venue"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-genome-bc",
+    "type": "org",
+    "name": "Genome BC",
+    "blurb": "Genomics organization engaged as a stakeholder in the Life Sciences AI conversation.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "life-sciences",
+      "partner"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-h-r-macmillan-space-centre",
+    "type": "org",
+    "name": "H.R. MacMillan Space Centre",
+    "blurb": "Vancouver venue partner hosting the monthly Vancouver AI meetup and the Futureproof Festival.",
+    "initiatives": [
+      "bc-ai",
+      "futureproof"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "venue",
+      "partner"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-indigenomics-institute",
+    "type": "org",
+    "name": "Indigenomics Institute",
+    "blurb": "Indigenous economic leadership organization informing BC + AI's Indigenous-led approach.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "indigenous",
+      "partner",
+      "governance"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-innovate-bc",
+    "type": "org",
+    "name": "Innovate BC",
+    "blurb": "Provincial innovation agency and ecosystem partner supporting BC's tech and AI sectors.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "partner",
+      "government"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-mila",
+    "type": "org",
+    "name": "Mila",
+    "blurb": "Montreal AI research institute \u2014 a national partner across graduate networks.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "national",
+    "tags": [
+      "academic",
+      "partner",
+      "national"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-multimodal-media-lab-sfu",
+    "type": "org",
+    "name": "Multimodal Media Lab (SFU)",
+    "blurb": "SFU lab and venue partner for the BC + AI Film Club and generative media work.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "venue",
+      "academic",
+      "media"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-northeastern-university-vancouver",
+    "type": "org",
+    "name": "Northeastern University Vancouver",
+    "blurb": "Vancouver campus collaborating on AI research and community programming.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "academic",
+      "research"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-real-youth",
+    "type": "org",
+    "name": "Real Youth",
+    "blurb": "Youth-serving organization partnering on advisory and programming.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "youth",
+      "partner"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-rival-technologies",
+    "type": "org",
+    "name": "Rival Technologies",
+    "blurb": "Vancouver technology company and community sponsor (hackathon support).",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "sponsor",
+      "industry"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-segev-law",
+    "type": "org",
+    "name": "Segev Law",
+    "blurb": "Law firm providing legal support as a community sponsor.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "sponsor",
+      "legal"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-squamish-nation",
+    "type": "org",
+    "name": "Squamish Nation",
+    "blurb": "Indigenous community partner in BC + AI's relationship-building work.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "indigenous",
+      "partner"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-the-upgrade",
+    "type": "org",
+    "name": "The Upgrade",
+    "blurb": "AI training studio delivering hands-on, responsible-AI upskilling for creative and media professionals.",
+    "initiatives": [
+      "ed-ai",
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "training",
+      "education"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-ubc",
+    "type": "org",
+    "name": "UBC",
+    "blurb": "University of British Columbia \u2014 research partner across emerging media, cognitive systems, and neuroscience.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "academic",
+      "research"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-vector-institute",
+    "type": "org",
+    "name": "Vector Institute",
+    "blurb": "Toronto AI research institute \u2014 a national partner in the CIFAR network.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "national",
+    "tags": [
+      "academic",
+      "partner",
+      "national"
+    ],
+    "links": []
+  },
+  {
+    "id": "org-viatec",
+    "type": "org",
+    "name": "VIATEC",
+    "blurb": "Victoria Innovation, Advanced Technology & Entrepreneurship Council \u2014 a regional ecosystem peer.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "victoria",
+    "tags": [
+      "partner",
+      "ecosystem"
+    ],
+    "links": []
+  },
+  {
+    "id": "project-bc-ai-directory",
     "type": "project",
     "name": "BC AI Directory",
     "blurb": "Open dataset of BC's AI organizations and people, published under CC BY 4.0.",
-    "initiatives": ["bc-ai"],
+    "initiatives": [
+      "bc-ai"
+    ],
     "region": "provincial",
-    "tags": ["open-data", "directory"]
+    "tags": [
+      "open-data",
+      "directory"
+    ],
+    "links": []
   },
   {
-    "id": "proj-toc",
+    "id": "project-compass-datacenters-lab",
+    "type": "project",
+    "name": "Compass Datacenters Lab",
+    "blurb": "The discussion focuses on the integration of AI tools like ChatGPT and Microsoft Copilot in marketing and communications, emphasizing their role in enhancing content creation, overcoming creative blocks, and streamlining workflows.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "AI Community",
+      "Professional AI Empowerment",
+      "Creative Technology Integration"
+    ],
+    "links": []
+  },
+  {
+    "id": "project-fatale",
+    "type": "project",
+    "name": "FATALE",
+    "blurb": "FATALE aims to create an exclusive global community of creatives and innovators through annual gatherings, focusing on memorable experiences, impactful connections, iterative learning, and fostering a sense of belonging among attendees.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "Creative Community",
+      "Community-Driven Innovation"
+    ],
+    "links": []
+  },
+  {
+    "id": "project-gni",
+    "type": "project",
+    "name": "GNI",
+    "blurb": "The Google News Initiative (GNI) includes various projects focused on news sustainability, such as AI coaching programs and case studies on building community and trust through AI in journalism.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "Google News Initiative"
+    ],
+    "links": []
+  },
+  {
+    "id": "project-metacreation",
+    "type": "project",
+    "name": "METACREATION",
+    "blurb": "The Metacreation Lab focuses on integrating generative AI into art, music, and performance, fostering human-machine collaboration.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "vancouver",
+    "tags": [
+      "Creative Technology Integration",
+      "Vancouver AI",
+      "AI Community"
+    ],
+    "links": []
+  },
+  {
+    "id": "project-responsible-ai-professional-program",
+    "type": "project",
+    "name": "Responsible AI Professional Program",
+    "blurb": "Cohort-based certification training practitioners to deploy AI responsibly; Cohort #1 ran in 2026.",
+    "initiatives": [
+      "ed-ai",
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "certification",
+      "responsible-ai"
+    ],
+    "links": []
+  },
+  {
+    "id": "project-sandboxing-ai",
+    "type": "project",
+    "name": "Sandboxing AI",
+    "blurb": "The content discusses various aspects of AI and its integration into society, highlighting Vancouver's role as a hub for AI innovation.",
+    "initiatives": [
+      "bc-ai"
+    ],
+    "region": "provincial",
+    "tags": [
+      "Vancouver",
+      "AI Community",
+      "Creative Technology Integration"
+    ],
+    "links": []
+  },
+  {
+    "id": "project-the-observatory",
+    "type": "project",
+    "name": "The Observatory",
+    "blurb": "This living map \u2014 a public, interactive graph of the BC + AI, ED + AI, and Futureproof ecosystem.",
+    "initiatives": [
+      "bc-ai",
+      "ed-ai",
+      "futureproof"
+    ],
+    "region": "provincial",
+    "tags": [
+      "living-map",
+      "open-source"
+    ],
+    "links": [
+      {
+        "url": "https://official.observer",
+        "label": "Website"
+      }
+    ],
+    "joinUrl": "https://official.observer"
+  },
+  {
+    "id": "project-theory-of-change",
     "type": "project",
     "name": "Theory of Change",
     "blurb": "BC + AI's strategic framework of guiding questions shaping community programming.",
-    "initiatives": ["bc-ai"],
+    "initiatives": [
+      "bc-ai"
+    ],
     "region": "provincial",
-    "tags": ["strategy"]
+    "tags": [
+      "strategy"
+    ],
+    "links": []
   },
   {
-    "id": "proj-observatory",
+    "id": "project-wild-salmon-programme",
     "type": "project",
-    "name": "The Observatory",
-    "blurb": "This living map — a public, interactive graph of the BC + AI, ED + AI, and Futureproof ecosystem.",
-    "initiatives": ["bc-ai", "ed-ai", "futureproof"],
+    "name": "Wild Salmon Programme",
+    "blurb": "An initiative to repatriate BC AI talent with coordinated investment and support.",
+    "initiatives": [
+      "bc-ai"
+    ],
     "region": "provincial",
-    "tags": ["living-map", "open-source"],
-    "links": [{ "label": "official.observer", "url": "https://official.observer" }]
+    "tags": [
+      "talent",
+      "strategy"
+    ],
+    "links": []
   }
 ]

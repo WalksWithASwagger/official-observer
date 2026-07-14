@@ -20,8 +20,12 @@ The Observatory is community data. Corrections and additions are welcome.
    ```
 
    - `id` must be unique and kebab-case (convention: `type-shortname`).
-   - `type` is one of: `person`, `org`, `project`, `event`, `initiative`.
+   - `type` is one of: `org`, `project`, `event`, `initiative`
+     (`person` is reserved and rejected by the validator).
    - `initiatives` is one or more of: `bc-ai`, `ed-ai`, `futureproof`.
+   - `region` (optional) is one of: `vancouver`, `comox-valley`,
+     `fraser-valley`, `victoria`, `provincial`, `national`.
+   - `joinUrl` (optional) is a public https landing / registration link.
 
 ## Connect it
 

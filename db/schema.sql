@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS entities (
   initiatives jsonb NOT NULL DEFAULT '[]'::jsonb,
   region text,
   tags jsonb NOT NULL DEFAULT '[]'::jsonb,
-  links jsonb NOT NULL DEFAULT '[]'::jsonb
+  links jsonb NOT NULL DEFAULT '[]'::jsonb,
+  join_url text
 );
 
 CREATE TABLE IF NOT EXISTS relationships (

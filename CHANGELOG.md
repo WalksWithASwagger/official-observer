@@ -3,6 +3,25 @@
 All notable changes to The Observatory are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Fixed
+- **`joinUrl` persistence** — Postgres schema/seed/sync now round-trip Notion
+  `Join URL` via `join_url` (was dropped on live API).
+- **Live dataset in UI** — Entity panel, search, scorecard, and deep links use
+  `useDataset()` instead of static-only maps (no desync after hydrate).
+- **Pulse `entityId`s** — aligned `data/events.json` with Notion-sync slug IDs
+  (`event-bc-ai-office-hours`, etc.).
+
+### Changed
+- **Phase 6 docs** — curation playbook ([docs/CURATION.md](./docs/CURATION.md));
+  PROJECT-NOTES/README reflect org/event sync already shipped and Neon live.
+- **Public seed** — more `joinUrl`s on chapter events + initiative→program edges.
+- **Notion sync go-live** — refreshed varlock `NOTION_TOKEN`, accessible
+  Observatory Entities/Relationships DBs under Futureproof hub, Vercel env
+  wired; sync verified **44 Public entities / 72 Public edges** (includes
+  Projects-DB promotions).
+
 ## [0.4.1] — 2026-06-28
 
 Polish & hardening (no new features).
@@ -57,8 +76,9 @@ Roadmap Phases 2–5 + backend backbone.
   hard-fails on person/PII, dangling edges, or invalid enums.
 
 ### Notes
-- Backend runs in **static-fallback mode** until Neon is provisioned and a
-  `NOTION_TOKEN` is set — both are KK actions. App is fully functional without them.
+- Neon is provisioned and `/api/graph` serves live data. Nightly Notion sync
+  still needs a valid `NOTION_TOKEN` on Vercel (see docs/PROJECT-NOTES.md).
+  App remains fully functional from static seed / seeded Postgres without it.
 
 ## [0.2.0] — 2026-06-28
 

@@ -1,72 +1,375 @@
 [
-  { "source": "org-bcai-assoc", "target": "init-bc-ai", "type": "stewards", "weight": 3 },
-  { "source": "org-bcai-assoc", "target": "init-ed-ai", "type": "stewards", "weight": 2 },
-  { "source": "org-bcai-assoc", "target": "init-futureproof", "type": "stewards", "weight": 2 },
-
-  { "source": "org-bcai-assoc", "target": "event-vancouver-ai-meetup", "type": "runs", "weight": 2 },
-  { "source": "org-bcai-assoc", "target": "event-office-hours", "type": "runs" },
-  { "source": "org-bcai-assoc", "target": "event-ed-ai-meetup", "type": "runs" },
-  { "source": "org-bcai-assoc", "target": "event-film-club", "type": "runs" },
-  { "source": "org-bcai-assoc", "target": "event-comox-valley-ai", "type": "runs" },
-  { "source": "org-bcai-assoc", "target": "event-fraser-valley-ai", "type": "runs" },
-  { "source": "org-bcai-assoc", "target": "event-mac", "type": "runs" },
-  { "source": "org-bcai-assoc", "target": "event-ai-happy-hour", "type": "runs" },
-  { "source": "org-bcai-assoc", "target": "event-life-sciences-sig", "type": "convenes" },
-  { "source": "org-bcai-assoc", "target": "event-futureproof-2026", "type": "produces", "weight": 2 },
-
-  { "source": "org-bcai-assoc", "target": "proj-observatory", "type": "operates" },
-  { "source": "org-bcai-assoc", "target": "proj-bc-ai-directory", "type": "publishes" },
-  { "source": "org-bcai-assoc", "target": "proj-toc", "type": "maintains" },
-  { "source": "org-bcai-assoc", "target": "proj-wild-salmon", "type": "leads" },
-  { "source": "org-bcai-assoc", "target": "org-the-upgrade", "type": "partners" },
-  { "source": "org-the-upgrade", "target": "proj-rap", "type": "runs", "weight": 2 },
-
-  { "source": "event-ed-ai-meetup", "target": "init-ed-ai", "type": "part-of" },
-  { "source": "proj-rap", "target": "init-ed-ai", "type": "part-of" },
-  { "source": "org-the-upgrade", "target": "init-ed-ai", "type": "part-of" },
-  { "source": "org-ethos-lab", "target": "init-ed-ai", "type": "part-of" },
-  { "source": "event-vancouver-ai-meetup", "target": "init-bc-ai", "type": "part-of" },
-  { "source": "event-comox-valley-ai", "target": "init-bc-ai", "type": "part-of" },
-  { "source": "event-fraser-valley-ai", "target": "init-bc-ai", "type": "part-of" },
-  { "source": "proj-wild-salmon", "target": "init-bc-ai", "type": "part-of" },
-  { "source": "event-futureproof-2026", "target": "init-futureproof", "type": "part-of", "weight": 2 },
-
-  { "source": "org-space-centre", "target": "event-vancouver-ai-meetup", "type": "hosts" },
-  { "source": "org-space-centre", "target": "event-futureproof-2026", "type": "hosts", "weight": 2 },
-  { "source": "org-ethos-lab", "target": "event-ed-ai-meetup", "type": "hosts" },
-  { "source": "org-multimodal-lab", "target": "event-film-club", "type": "hosts" },
-  { "source": "org-friends-quarters", "target": "event-ai-happy-hour", "type": "hosts" },
-
-  { "source": "event-film-club", "target": "event-futureproof-2026", "type": "track-at" },
-  { "source": "event-life-sciences-sig", "target": "event-futureproof-2026", "type": "track-at" },
-  { "source": "event-ed-ai-meetup", "target": "event-futureproof-2026", "type": "track-at" },
-  { "source": "event-mac", "target": "event-futureproof-2026", "type": "track-at" },
-  { "source": "event-comox-valley-ai", "target": "event-futureproof-2026", "type": "track-at" },
-  { "source": "event-futureproof-2026", "target": "event-vancouver-ai-meetup", "type": "announced-at" },
-
-  { "source": "org-innovate-bc", "target": "org-bcai-assoc", "type": "partners" },
-  { "source": "org-bc-ministry-ai", "target": "org-bcai-assoc", "type": "engages" },
-  { "source": "org-indigenomics", "target": "org-bcai-assoc", "type": "partners" },
-  { "source": "org-squamish-nation", "target": "org-bcai-assoc", "type": "partners" },
-  { "source": "org-genome-bc", "target": "org-bcai-assoc", "type": "partners" },
-  { "source": "org-viatec", "target": "org-bcai-assoc", "type": "partners" },
-  { "source": "org-real-youth", "target": "org-bcai-assoc", "type": "partners" },
-  { "source": "org-rival", "target": "org-bcai-assoc", "type": "sponsors" },
-  { "source": "org-segev", "target": "org-bcai-assoc", "type": "sponsors" },
-  { "source": "org-ubc", "target": "org-bcai-assoc", "type": "collaborates" },
-  { "source": "org-northeastern-van", "target": "org-bcai-assoc", "type": "collaborates" },
-  { "source": "org-multimodal-lab", "target": "org-bcai-assoc", "type": "collaborates" },
-  { "source": "org-amii", "target": "org-bcai-assoc", "type": "partners" },
-  { "source": "org-mila", "target": "org-bcai-assoc", "type": "partners" },
-  { "source": "org-vector", "target": "org-bcai-assoc", "type": "partners" },
-
-  { "source": "org-genome-bc", "target": "event-life-sciences-sig", "type": "engages" },
-  { "source": "proj-wild-salmon", "target": "event-life-sciences-sig", "type": "emerged-from" },
-  { "source": "org-bcai-assoc", "target": "event-web-summit-2026", "type": "presented-at" },
-
-  { "source": "proj-bc-ai-directory", "target": "proj-observatory", "type": "feeds", "weight": 2 },
-  { "source": "proj-observatory", "target": "init-bc-ai", "type": "maps" },
-  { "source": "proj-observatory", "target": "init-ed-ai", "type": "maps" },
-  { "source": "proj-observatory", "target": "init-futureproof", "type": "maps" },
-  { "source": "proj-toc", "target": "init-bc-ai", "type": "guides" }
+  {
+    "source": "event-ai-in-education-meetup",
+    "target": "initiative-ed-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "event-ai-in-education-meetup",
+    "target": "event-futureproof-festival-2026",
+    "type": "track-at"
+  },
+  {
+    "source": "event-bc-ai-film-club",
+    "target": "event-futureproof-festival-2026",
+    "type": "track-at"
+  },
+  {
+    "source": "event-comox-valley-ai",
+    "target": "initiative-bc-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "event-comox-valley-ai",
+    "target": "event-futureproof-festival-2026",
+    "type": "track-at"
+  },
+  {
+    "source": "event-fraser-valley-ai",
+    "target": "initiative-bc-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "event-futureproof-festival-2026",
+    "target": "event-vancouver-ai-meetup",
+    "type": "announced-at"
+  },
+  {
+    "source": "event-futureproof-festival-2026",
+    "target": "initiative-futureproof",
+    "type": "part-of",
+    "weight": 2
+  },
+  {
+    "source": "event-life-sciences-ai-sig",
+    "target": "event-futureproof-festival-2026",
+    "type": "track-at"
+  },
+  {
+    "source": "event-mac-mind-ai-consciousness",
+    "target": "event-futureproof-festival-2026",
+    "type": "track-at"
+  },
+  {
+    "source": "event-vancouver-ai-meetup",
+    "target": "initiative-bc-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "initiative-bc-ai",
+    "target": "event-comox-valley-ai",
+    "type": "hosts"
+  },
+  {
+    "source": "initiative-bc-ai",
+    "target": "event-vancouver-ai-meetup",
+    "type": "hosts",
+    "weight": 2
+  },
+  {
+    "source": "initiative-bc-ai",
+    "target": "event-bc-ai-office-hours",
+    "type": "runs",
+    "weight": 2
+  },
+  {
+    "source": "initiative-ed-ai",
+    "target": "event-ai-in-education-meetup",
+    "type": "hosts",
+    "weight": 2
+  },
+  {
+    "source": "initiative-futureproof",
+    "target": "event-futureproof-festival-2026",
+    "type": "produces",
+    "weight": 2
+  },
+  {
+    "source": "org-amii",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "partners"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-life-sciences-ai-sig",
+    "type": "convenes"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "project-wild-salmon-programme",
+    "type": "leads"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "project-theory-of-change",
+    "type": "maintains"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "project-the-observatory",
+    "type": "operates"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "org-the-upgrade",
+    "type": "partners"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-web-summit-vancouver-2026",
+    "type": "presented-at"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-futureproof-festival-2026",
+    "type": "produces",
+    "weight": 2
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "project-bc-ai-directory",
+    "type": "publishes"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-ai-happy-hour",
+    "type": "runs"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-ai-in-education-meetup",
+    "type": "runs"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-bc-ai-film-club",
+    "type": "runs"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-bc-ai-office-hours",
+    "type": "runs"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-comox-valley-ai",
+    "type": "runs"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-fraser-valley-ai",
+    "type": "runs"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-mac-mind-ai-consciousness",
+    "type": "runs"
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "event-vancouver-ai-meetup",
+    "type": "runs",
+    "weight": 2
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "initiative-bc-ai",
+    "type": "stewards",
+    "weight": 3
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "initiative-ed-ai",
+    "type": "stewards",
+    "weight": 2
+  },
+  {
+    "source": "org-bc-ai-ecosystem-association",
+    "target": "initiative-futureproof",
+    "type": "stewards",
+    "weight": 2
+  },
+  {
+    "source": "org-bc-ministry-of-ai",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "engages"
+  },
+  {
+    "source": "org-eth-s-lab",
+    "target": "event-ai-in-education-meetup",
+    "type": "hosts"
+  },
+  {
+    "source": "org-eth-s-lab",
+    "target": "initiative-ed-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "org-friends-quarters",
+    "target": "event-ai-happy-hour",
+    "type": "hosts"
+  },
+  {
+    "source": "org-genome-bc",
+    "target": "event-life-sciences-ai-sig",
+    "type": "engages"
+  },
+  {
+    "source": "org-genome-bc",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "partners"
+  },
+  {
+    "source": "org-h-r-macmillan-space-centre",
+    "target": "event-futureproof-festival-2026",
+    "type": "hosts",
+    "weight": 2
+  },
+  {
+    "source": "org-h-r-macmillan-space-centre",
+    "target": "event-vancouver-ai-meetup",
+    "type": "hosts"
+  },
+  {
+    "source": "org-indigenomics-institute",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "partners"
+  },
+  {
+    "source": "org-innovate-bc",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "partners"
+  },
+  {
+    "source": "org-mila",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "partners"
+  },
+  {
+    "source": "org-multimodal-media-lab-sfu",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "collaborates"
+  },
+  {
+    "source": "org-multimodal-media-lab-sfu",
+    "target": "event-bc-ai-film-club",
+    "type": "hosts"
+  },
+  {
+    "source": "org-northeastern-university-vancouver",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "collaborates"
+  },
+  {
+    "source": "org-real-youth",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "partners"
+  },
+  {
+    "source": "org-rival-technologies",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "sponsors"
+  },
+  {
+    "source": "org-segev-law",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "sponsors"
+  },
+  {
+    "source": "org-squamish-nation",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "partners"
+  },
+  {
+    "source": "org-the-upgrade",
+    "target": "initiative-ed-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "org-the-upgrade",
+    "target": "project-responsible-ai-professional-program",
+    "type": "runs",
+    "weight": 2
+  },
+  {
+    "source": "org-ubc",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "collaborates"
+  },
+  {
+    "source": "org-vector-institute",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "partners"
+  },
+  {
+    "source": "org-viatec",
+    "target": "org-bc-ai-ecosystem-association",
+    "type": "partners"
+  },
+  {
+    "source": "project-bc-ai-directory",
+    "target": "project-the-observatory",
+    "type": "feeds",
+    "weight": 2
+  },
+  {
+    "source": "project-compass-datacenters-lab",
+    "target": "initiative-bc-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "project-fatale",
+    "target": "initiative-bc-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "project-gni",
+    "target": "initiative-bc-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "project-metacreation",
+    "target": "initiative-bc-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "project-responsible-ai-professional-program",
+    "target": "initiative-ed-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "project-sandboxing-ai",
+    "target": "initiative-bc-ai",
+    "type": "part-of"
+  },
+  {
+    "source": "project-the-observatory",
+    "target": "initiative-bc-ai",
+    "type": "maps"
+  },
+  {
+    "source": "project-the-observatory",
+    "target": "initiative-ed-ai",
+    "type": "maps"
+  },
+  {
+    "source": "project-the-observatory",
+    "target": "initiative-futureproof",
+    "type": "maps"
+  },
+  {
+    "source": "project-theory-of-change",
+    "target": "initiative-bc-ai",
+    "type": "guides"
+  },
+  {
+    "source": "project-wild-salmon-programme",
+    "target": "event-life-sciences-ai-sig",
+    "type": "emerged-from"
+  },
+  {
+    "source": "project-wild-salmon-programme",
+    "target": "initiative-bc-ai",
+    "type": "part-of"
+  }
 ]

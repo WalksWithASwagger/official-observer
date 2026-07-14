@@ -1,9 +1,9 @@
 [
-  { "id": "evt-office-hours-jul03", "name": "BC + AI Office Hours", "date": "2026-07-03", "entityId": "event-office-hours", "location": "Online" },
-  { "id": "evt-film-club-jul09", "name": "BC + AI Film Club", "date": "2026-07-09", "entityId": "event-film-club", "location": "Multimodal Media Lab (SFU)" },
-  { "id": "evt-ed-ai-jul15", "name": "AI in Education Meetup", "date": "2026-07-15", "entityId": "event-ed-ai-meetup", "location": "Ethọ́s Lab" },
+  { "id": "evt-office-hours-jul03", "name": "BC + AI Office Hours", "date": "2026-07-03", "entityId": "event-bc-ai-office-hours", "location": "Online" },
+  { "id": "evt-film-club-jul09", "name": "BC + AI Film Club", "date": "2026-07-09", "entityId": "event-bc-ai-film-club", "location": "Multimodal Media Lab (SFU)" },
+  { "id": "evt-ed-ai-jul15", "name": "AI in Education Meetup", "date": "2026-07-15", "entityId": "event-ai-in-education-meetup", "location": "Ethọ́s Lab" },
   { "id": "evt-happy-hour-jul17", "name": "AI Happy Hour", "date": "2026-07-17", "entityId": "event-ai-happy-hour", "location": "Friends Quarters" },
   { "id": "evt-van-ai-jul29", "name": "Vancouver AI Meetup", "date": "2026-07-29", "entityId": "event-vancouver-ai-meetup", "location": "H.R. MacMillan Space Centre" },
   { "id": "evt-comox-sep02", "name": "Comox Valley AI", "date": "2026-09-02", "entityId": "event-comox-valley-ai", "location": "Comox Valley" },
-  { "id": "evt-futureproof-oct28", "name": "Futureproof Festival 2026", "date": "2026-10-28", "entityId": "event-futureproof-2026", "location": "H.R. MacMillan Space Centre" }
+  { "id": "evt-futureproof-oct28", "name": "Futureproof Festival 2026", "date": "2026-10-28", "entityId": "event-futureproof-festival-2026", "location": "H.R. MacMillan Space Centre" }
 ]
