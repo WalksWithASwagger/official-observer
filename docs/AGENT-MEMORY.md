@@ -14,6 +14,15 @@ Supersedes older notes that said “only open item = NOTION_TOKEN” or Atlas DB
 - Public API: `/api/v1/graph`, `/api/v1/entities/:id`
 - Entity pages: `/e/[id]`
 
+## Verify (shipped 2026-07-14)
+
+```bash
+npm run validate && node scripts/wave-gate.mjs && npm run build
+curl -sS https://official.observer/api/v1/graph | jq '{version, n:(.entities|length), next:(.entities|map(select(.nextDate))|length)}'
+```
+
+Expect: validate + wave-gate ok; build green; live `version:1`, ~44 entities, Next Dates present.
+
 ## Do not
 
 - Sync operational DBs (Ecosystem Map, Master Calendar, Projects, Social)
