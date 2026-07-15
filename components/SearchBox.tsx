@@ -7,9 +7,12 @@ import { ENTITY_TYPE_LABELS, type Entity } from "@/lib/types";
 export function SearchBox({
   entities,
   onSelect,
+  embedded = false,
 }: {
   entities: Entity[];
   onSelect: (id: string) => void;
+  /** When true, sits inside the command rail (no absolute positioning). */
+  embedded?: boolean;
 }) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -38,7 +41,7 @@ export function SearchBox({
   );
 
   return (
-    <div className="absolute left-1/2 top-20 z-20 w-[min(18rem,calc(100vw-2rem))] -translate-x-1/2 sm:top-4">
+    <div className={embedded ? "relative w-full" : "absolute left-1/2 top-20 z-20 w-[min(18rem,calc(100vw-2rem))] -translate-x-1/2 sm:top-4"}>
       <input
         value={query}
         onChange={(e) => {
@@ -50,22 +53,23 @@ export function SearchBox({
         placeholder="Search the ecosystem…"
         aria-label="Search the ecosystem"
         type="search"
-        className="w-full rounded-full border border-white/10 bg-slate-900/80 px-4 py-2 text-sm text-slate-100 shadow-xl outline-none backdrop-blur placeholder:text-slate-500 focus:border-sky-500/50"
+        className="w-full rounded-md border border-[var(--line)] bg-black/30 px-3 py-2 text-sm text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] focus:border-[color-mix(in_srgb,var(--bc-ai)_55%,transparent)]"
       />
       {open && results.length > 0 && (
-        <ul className="absolute mt-1 w-full overflow-hidden rounded-xl border border-white/10 bg-slate-900/95 shadow-2xl backdrop-blur">
+        <ul className="absolute z-40 mt-1 w-full overflow-hidden rounded-md border border-[var(--line)] bg-[var(--ink-elevated)] shadow-2xl">
           {results.map((r) => (
             <li key={r.id}>
               <button
+                type="button"
                 onMouseDown={() => {
                   onSelect(r.id);
                   setQuery(r.name as string);
                   setOpen(false);
                 }}
-                className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm text-slate-200 hover:bg-white/10"
+                className="flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm text-[var(--foreground)] hover:bg-white/8"
               >
                 <span>{r.name as string}</span>
-                <span className="text-xs text-slate-500">
+                <span className="text-xs text-[var(--muted)]">
                   {ENTITY_TYPE_LABELS[r.type as keyof typeof ENTITY_TYPE_LABELS]}
                 </span>
               </button>

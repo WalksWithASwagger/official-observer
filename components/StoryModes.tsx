@@ -44,14 +44,15 @@ const STORIES: {
 export function StoryModes({
   dataset,
   onSelect,
+  onClose,
 }: {
   dataset: Dataset;
   onSelect: (id: string) => void;
+  onClose?: () => void;
 }) {
   const [active, setActive] = useState<StoryId | null>(null);
   const [step, setStep] = useState(0);
 
-  const story = STORIES.find((s) => s.id === active);
   const ids = useMemo(() => new Set(dataset.entities.map((e) => e.id)), [dataset]);
 
   const playable = useMemo(
@@ -65,6 +66,9 @@ export function StoryModes({
 
   if (playable.length === 0) return null;
 
+  const story = playable.find((s) => s.id === active);
+  const steps = story?.steps ?? [];
+
   const go = (s: (typeof playable)[0], i: number) => {
     setActive(s.id);
     setStep(i);
@@ -72,59 +76,89 @@ export function StoryModes({
   };
 
   return (
-    <div className="absolute right-4 top-16 z-20 max-w-[min(18rem,calc(100vw-2rem))] max-sm:hidden">
-      <div className="rounded-2xl border border-white/10 bg-slate-900/75 p-2 shadow-xl backdrop-blur-md">
-        <div className="mb-1 px-1 text-[10px] uppercase tracking-[0.14em] text-slate-500">
-          Stories
+    <div className="absolute inset-x-3 bottom-24 z-40 sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-24 sm:w-[min(22rem,calc(100vw-2rem))] sm:-translate-x-1/2">
+      <div className="obs-surface-solid obs-animate-in rounded-[var(--radius-panel)] p-4 shadow-2xl">
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">
+              Guided tours
+            </div>
+            <h2 className="font-display text-xl tracking-tight text-[var(--foreground)]">
+              Walk the constellation
+            </h2>
+          </div>
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close tours"
+              className="rounded-md px-2 py-1 text-[var(--muted)] hover:bg-white/10 hover:text-[var(--foreground)]"
+            >
+              ✕
+            </button>
+          )}
         </div>
-        <div className="flex flex-wrap gap-1">
+
+        <div className="flex flex-wrap gap-1.5">
           {playable.map((s) => (
             <button
               key={s.id}
+              type="button"
               onClick={() => go(s, 0)}
-              className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${
+              className={`rounded-md px-2.5 py-1.5 text-xs font-medium transition ${
                 active === s.id
-                  ? "bg-sky-500/20 text-sky-100"
-                  : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+                  ? "bg-[color-mix(in_srgb,var(--bc-ai)_22%,transparent)] text-[var(--bc-ai)]"
+                  : "bg-white/5 text-[var(--muted)] hover:text-[var(--foreground)]"
               }`}
             >
               {s.label}
             </button>
           ))}
         </div>
-        {story && story.steps.length > 0 && ids.has(story.steps[0]?.entityId) && (
-          <div className="mt-2 border-t border-white/5 px-1 pt-2">
-            <p className="text-xs text-slate-400">
-              {step + 1}/{story.steps.filter((st) => ids.has(st.entityId)).length}:{" "}
-              {story.steps.filter((st) => ids.has(st.entityId))[step]?.note}
+
+        {story && steps.length > 0 && (
+          <div className="mt-3 border-t border-[var(--line)] pt-3">
+            <p
+              key={`${story.id}-${step}`}
+              className="obs-animate-in text-sm text-[var(--foreground)]/90"
+            >
+              <span className="tabular-nums text-[var(--muted)]">
+                {step + 1}/{steps.length}
+              </span>
+              {" — "}
+              {steps[step]?.note}
             </p>
-            <div className="mt-1.5 flex gap-1">
+            <div className="mt-2 flex gap-1.5">
               <button
+                type="button"
                 disabled={step <= 0}
                 onClick={() => {
-                  const steps = story.steps.filter((st) => ids.has(st.entityId));
                   const n = Math.max(0, step - 1);
                   setStep(n);
                   onSelect(steps[n].entityId);
                 }}
-                className="rounded-full px-2 py-0.5 text-xs text-slate-400 hover:bg-white/5 disabled:opacity-30"
+                className="rounded-md px-2.5 py-1 text-xs text-[var(--muted)] hover:bg-white/5 disabled:opacity-30"
               >
-                ←
+                ← Back
               </button>
               <button
+                type="button"
                 onClick={() => {
-                  const steps = story.steps.filter((st) => ids.has(st.entityId));
                   const n = Math.min(steps.length - 1, step + 1);
                   setStep(n);
                   onSelect(steps[n].entityId);
                 }}
-                className="rounded-full bg-sky-500/15 px-2 py-0.5 text-xs text-sky-200 hover:bg-sky-500/25"
+                className="rounded-md bg-[color-mix(in_srgb,var(--bc-ai)_20%,transparent)] px-2.5 py-1 text-xs font-medium text-[var(--bc-ai)] hover:bg-[color-mix(in_srgb,var(--bc-ai)_30%,transparent)]"
               >
                 Next →
               </button>
               <button
-                onClick={() => setActive(null)}
-                className="ml-auto rounded-full px-2 py-0.5 text-xs text-slate-500 hover:text-slate-300"
+                type="button"
+                onClick={() => {
+                  setActive(null);
+                  onClose?.();
+                }}
+                className="ml-auto rounded-md px-2.5 py-1 text-xs text-[var(--muted)] hover:text-[var(--foreground)]"
               >
                 End
               </button>

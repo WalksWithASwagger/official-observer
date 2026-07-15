@@ -23,18 +23,19 @@ export function webglSupported(): boolean {
 export function GraphFallback({ message }: { message: string }) {
   return (
     <div className="flex h-full w-full items-center justify-center p-6">
-      <div className="max-w-sm rounded-2xl border border-white/10 bg-slate-900/80 p-6 text-center shadow-xl backdrop-blur">
-        <p className="text-sm font-medium text-slate-200">{message}</p>
-        <p className="mt-2 text-xs text-slate-400">
+      <div className="obs-surface-solid max-w-sm rounded-[var(--radius-panel)] p-6 text-center">
+        <p className="font-display text-lg text-[var(--foreground)]">{message}</p>
+        <p className="mt-2 text-xs text-[var(--muted)]">
           The full dataset is still available on the{" "}
-          <a href="/about" className="text-sky-400 hover:underline">
+          <a href="/about" className="text-[var(--bc-ai)] hover:underline">
             about page
           </a>
           , or try reloading.
         </p>
         <button
+          type="button"
           onClick={() => window.location.reload()}
-          className="mt-4 rounded-full border border-sky-500/40 bg-sky-500/15 px-4 py-1.5 text-xs font-medium text-sky-200 transition hover:bg-sky-500/25"
+          className="mt-4 rounded-md border border-[color-mix(in_srgb,var(--bc-ai)_45%,transparent)] bg-[color-mix(in_srgb,var(--bc-ai)_15%,transparent)] px-4 py-1.5 text-xs font-medium text-[var(--bc-ai)] transition hover:bg-[color-mix(in_srgb,var(--bc-ai)_25%,transparent)]"
         >
           Reload
         </button>

@@ -20,12 +20,13 @@ function Chip({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full border px-2.5 py-1 text-xs font-medium transition ${
+      className={`rounded-md border px-2 py-0.5 text-[11px] font-medium transition ${
         active
-          ? "border-white/20 bg-white/10 text-white"
-          : "border-transparent bg-white/5 text-slate-500 hover:text-slate-300"
+          ? "border-[var(--line-strong)] bg-white/10 text-[var(--foreground)]"
+          : "border-transparent bg-white/5 text-[var(--muted)] hover:text-[var(--foreground)]"
       }`}
       style={active && color ? { color, borderColor: `${color}66` } : undefined}
     >
@@ -40,17 +41,25 @@ export function FilterBar({
   hiddenInitiatives,
   onToggleType,
   onToggleInitiative,
+  embedded = false,
 }: {
   availableTypes: EntityType[];
   hiddenTypes: Set<EntityType>;
   hiddenInitiatives: Set<Initiative>;
   onToggleType: (t: EntityType) => void;
   onToggleInitiative: (i: Initiative) => void;
+  embedded?: boolean;
 }) {
   return (
-    <div className="absolute left-4 top-32 z-20 flex max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-2xl border border-white/10 bg-slate-900/75 p-3 text-slate-100 shadow-xl backdrop-blur-md sm:top-[4.75rem]">
-      <div className="flex flex-wrap items-center gap-1.5">
-        <span className="mr-1 text-[10px] uppercase tracking-[0.14em] text-slate-500">
+    <div
+      className={
+        embedded
+          ? "flex flex-col gap-2"
+          : "absolute left-4 top-32 z-20 flex max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-[var(--radius-panel)] border border-[var(--line)] bg-[var(--surface)] p-3 shadow-xl backdrop-blur-md sm:top-[4.75rem]"
+      }
+    >
+      <div className="flex flex-wrap items-center gap-1">
+        <span className="mr-1 text-[10px] uppercase tracking-[0.14em] text-[var(--muted)]">
           Initiative
         </span>
         {INITIATIVES.map((i) => (
@@ -64,8 +73,8 @@ export function FilterBar({
           </Chip>
         ))}
       </div>
-      <div className="flex flex-wrap items-center gap-1.5">
-        <span className="mr-1 text-[10px] uppercase tracking-[0.14em] text-slate-500">
+      <div className="flex flex-wrap items-center gap-1">
+        <span className="mr-1 text-[10px] uppercase tracking-[0.14em] text-[var(--muted)]">
           Type
         </span>
         {availableTypes.map((t) => (

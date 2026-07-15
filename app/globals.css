@@ -1,35 +1,112 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020617;
-  --foreground: #e2e8f0;
+  --ink: #05070c;
+  --ink-elevated: #0b1018;
+  --foreground: #e8eef7;
+  --muted: #8b9bb0;
+  --line: rgba(232, 238, 247, 0.1);
+  --line-strong: rgba(232, 238, 247, 0.18);
+  --bc-ai: #5b8def;
+  --ed-ai: #2dd4a7;
+  --futureproof: #f59e0b;
+  --dimmed: #1a2436;
+  --edge: #2a3850;
+  --background: var(--ink);
+  --surface: color-mix(in srgb, var(--ink-elevated) 88%, transparent);
+  --surface-solid: var(--ink-elevated);
+  --accent: var(--bc-ai);
+  --radius-panel: 1rem;
+  --rail-width: 17.5rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-plex);
+  --font-display: var(--font-fraunces);
+  --font-mono: var(--font-plex-mono);
 }
 
 body {
-  background: var(--background);
+  background: var(--ink);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-plex), system-ui, sans-serif;
 }
 
-/* Deep-space backdrop for the graph: faint colored glows on near-black so the
-   canvas has depth without competing with node colors. */
+.font-display {
+  font-family: var(--font-fraunces), Georgia, "Times New Roman", serif;
+}
+
+/* Full-bleed constellation field — initiative haze behind the graph only */
 .observatory-bg {
   background:
-    radial-gradient(60rem 40rem at 12% -10%, rgba(56, 108, 239, 0.14), transparent 60%),
-    radial-gradient(50rem 36rem at 105% 110%, rgba(45, 212, 167, 0.10), transparent 60%),
-    radial-gradient(40rem 30rem at 85% -5%, rgba(245, 158, 11, 0.06), transparent 55%),
-    #020617;
+    radial-gradient(70rem 48rem at 18% 8%, rgba(91, 141, 239, 0.16), transparent 58%),
+    radial-gradient(56rem 40rem at 92% 88%, rgba(45, 212, 167, 0.11), transparent 55%),
+    radial-gradient(44rem 32rem at 78% 6%, rgba(245, 158, 11, 0.08), transparent 50%),
+    var(--ink);
+}
+
+.obs-surface {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.obs-surface-solid {
+  background: color-mix(in srgb, var(--ink-elevated) 94%, transparent);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+@keyframes obs-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes obs-pulse-tick {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes obs-tour-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.obs-animate-in {
+  animation: obs-fade-up 0.45s ease-out both;
+}
+
+.obs-panel-in {
+  animation: obs-panel-in 0.35s ease-out both;
+}
+
+.obs-countdown-tick {
+  animation: obs-pulse-tick 2.4s ease-in-out infinite;
 }
 
 ::selection {
-  background: rgba(56, 189, 248, 0.35);
+  background: rgba(91, 141, 239, 0.35);
 }
 
 * {

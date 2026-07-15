@@ -39,7 +39,7 @@ export function buildGraph(dataset: Dataset): Graph {
     graph.addEdge(rel.source, rel.target, {
       relType: rel.type,
       weight: rel.weight ?? 1,
-      color: "#2b3a55",
+      color: "#2a3850",
       size: 0.6 + (rel.weight ?? 1) * 0.4,
     });
   });

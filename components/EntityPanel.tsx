@@ -35,35 +35,38 @@ export function EntityPanel({
   const connections = connectionsFor(dataset, entity.id);
 
   return (
-    <aside className="absolute inset-x-2 bottom-2 z-30 flex max-h-[60vh] flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/95 text-slate-100 shadow-2xl backdrop-blur-md sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-4 sm:max-h-[calc(100%-2rem)] sm:w-80">
-      <div className="flex items-start justify-between gap-2 border-b border-white/10 p-4">
+    <aside className="obs-surface-solid obs-panel-in absolute inset-x-2 bottom-2 z-30 flex max-h-[58vh] flex-col overflow-hidden rounded-[var(--radius-panel)] text-[var(--foreground)] shadow-2xl sm:inset-x-auto sm:bottom-auto sm:right-5 sm:top-[4.75rem] sm:max-h-[calc(100%-6.5rem)] sm:w-[20rem]">
+      <div className="flex items-start justify-between gap-2 border-b border-[var(--line)] p-4">
         <div>
           <span
-            className="text-[11px] font-semibold uppercase tracking-[0.14em]"
+            className="text-[10px] font-semibold uppercase tracking-[0.16em]"
             style={{ color: ENTITY_TYPE_COLORS[entity.type] }}
           >
             {ENTITY_TYPE_LABELS[entity.type]}
           </span>
-          <h2 className="text-lg font-semibold leading-tight">{entity.name}</h2>
+          <h2 className="font-display mt-0.5 text-xl font-medium leading-tight tracking-tight">
+            {entity.name}
+          </h2>
         </div>
         <button
+          type="button"
           onClick={onClose}
           aria-label="Close"
-          className="rounded-md px-2 py-1 text-slate-400 hover:bg-white/10 hover:text-white"
+          className="rounded-md px-2 py-1 text-[var(--muted)] hover:bg-white/10 hover:text-[var(--foreground)]"
         >
           ✕
         </button>
       </div>
 
       <div className="overflow-y-auto p-4 text-sm">
-        <p className="text-slate-300">{entity.blurb}</p>
+        <p className="leading-relaxed text-[var(--muted)]">{entity.blurb}</p>
 
         {entity.joinUrl && (
           <a
             href={entity.joinUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 inline-flex items-center gap-1 rounded-lg bg-sky-500/15 px-3 py-1.5 text-sm font-medium text-sky-300 transition hover:bg-sky-500/25"
+            className="mt-3 inline-flex items-center gap-1 rounded-md bg-[color-mix(in_srgb,var(--bc-ai)_18%,transparent)] px-3 py-1.5 text-sm font-medium text-[var(--bc-ai)] transition hover:bg-[color-mix(in_srgb,var(--bc-ai)_28%,transparent)]"
           >
             Get involved →
           </a>
@@ -71,7 +74,7 @@ export function EntityPanel({
 
         <a
           href={`/e/${entity.id}`}
-          className="mt-2 block text-xs text-slate-500 hover:text-sky-400"
+          className="mt-2 block text-xs text-[var(--muted)] hover:text-[var(--bc-ai)]"
         >
           Permalink / share page ↗
         </a>
@@ -83,7 +86,7 @@ export function EntityPanel({
             return (
               <span
                 key={id}
-                className="rounded-full px-2 py-0.5 text-xs font-medium"
+                className="rounded-md px-2 py-0.5 text-xs font-medium"
                 style={{ backgroundColor: `${init.color}22`, color: init.color }}
               >
                 {init.label}
@@ -92,9 +95,15 @@ export function EntityPanel({
           })}
         </div>
 
+        {entity.nextDate && (
+          <p className="mt-3 font-mono text-xs text-[var(--futureproof)]">
+            Next: {entity.nextDate}
+          </p>
+        )}
+
         {entity.links && entity.links.length > 0 && (
           <div className="mt-4">
-            <h3 className="mb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
+            <h3 className="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
               Links
             </h3>
             <ul className="space-y-1">
@@ -104,7 +113,7 @@ export function EntityPanel({
                     href={l.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sky-400 hover:underline"
+                    className="text-[var(--bc-ai)] hover:underline"
                   >
                     {l.label} ↗
                   </a>
@@ -116,7 +125,7 @@ export function EntityPanel({
 
         {connections.length > 0 && (
           <div className="mt-4">
-            <h3 className="mb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
+            <h3 className="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
               Connections ({connections.length})
             </h3>
             <ul className="space-y-1">
@@ -126,10 +135,11 @@ export function EntityPanel({
                 return (
                   <li key={`${rel.source}-${rel.target}-${rel.type}`}>
                     <button
+                      type="button"
                       onClick={() => onSelect(otherId)}
-                      className="w-full text-left text-slate-300 hover:text-white"
+                      className="w-full text-left text-[var(--foreground)]/85 hover:text-[var(--foreground)]"
                     >
-                      <span className="text-slate-500">{rel.type} →</span>{" "}
+                      <span className="text-[var(--muted)]">{rel.type} →</span>{" "}
                       {other.name}
                     </button>
                   </li>

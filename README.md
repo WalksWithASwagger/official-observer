@@ -6,7 +6,7 @@ connect.
 
 It's a WebGL knowledge graph. The repo ships version-controlled open data in
 [`/data`](./data); production hydrates from Notion → Neon via `/api/graph`
-(Status=Public only). Live: https://official.observer · **v0.5.0**.
+(Status=Public only). Live: https://official.observer · **v0.6.0**.
 
 ![status: early](https://img.shields.io/badge/status-early-orange)
 

@@ -3,6 +3,22 @@
 All notable changes to The Observatory are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.6.0] — 2026-07-15
+
+Constellation UI + graph render fix.
+
+### Fixed
+- **Sigma crash** — `edgeReducer` now reads extremities from Sigma’s live
+  graph (stale React Graph after hydrate caused `NotFoundGraphError`).
+- **WebGL fallback** — `createNodeImageProgram` is lazy (no module-level
+  `getContext` crash when WebGL is unavailable).
+
+### Changed
+- **Constellation Observatory** shell — full-bleed graph hero, Fraunces +
+  IBM Plex, ink field, single Explore command rail (progressive disclosure),
+  Pulse dock, Tours overlay, restyled EntityPanel.
+- Dataset hydrate skips no-op payload updates.
+
 ## [0.5.0] — 2026-07-14
 
 Master-plan Horizons 0–4 foundations.

@@ -11,21 +11,18 @@ import {
 } from "react";
 
 const subscribeNoop = () => () => {};
+
 import {
   SigmaContainer,
   useCamera,
   useLoadGraph,
   useRegisterEvents,
   useSetSettings,
+  useSigma,
 } from "@react-sigma/core";
 import { createNodeImageProgram } from "@sigma/node-image";
 import type Graph from "graphology";
-
-const NodeImageProgram = createNodeImageProgram({
-  drawingMode: "background",
-  keepWithinCircle: true,
-  padding: 0.25,
-});
+import type { AbstractGraph } from "graphology-types";
 
 import { useDataset } from "@/lib/useDataset";
 import { buildGraph } from "@/lib/graph";
@@ -43,7 +40,6 @@ import { EntityPanel } from "@/components/EntityPanel";
 import { FilterBar } from "@/components/FilterBar";
 import { SearchBox } from "@/components/SearchBox";
 import { PulsePanel } from "@/components/PulsePanel";
-import { Scorecard } from "@/components/Scorecard";
 import { MapView } from "@/components/MapView";
 import {
   GraphErrorBoundary,
@@ -53,8 +49,9 @@ import {
 import { StoryModes, initiativeFromParam } from "@/components/StoryModes";
 import { REGION_CENTROIDS } from "@/lib/regions";
 import { drawNodeHover } from "@/lib/rendering";
+import { ecosystemStats } from "@/lib/stats";
 
-const DIMMED = "#26324a";
+const DIMMED = "#1a2436";
 
 function GraphController({
   graph,
@@ -73,6 +70,7 @@ function GraphController({
   onSelect: (id: string | null) => void;
   onHover: (id: string | null) => void;
 }) {
+  const sigma = useSigma();
   const loadGraph = useLoadGraph();
   const setSettings = useSetSettings();
   const registerEvents = useRegisterEvents();
@@ -96,16 +94,22 @@ function GraphController({
   }, [registerEvents, onSelect, onHover]);
 
   useEffect(() => {
-    const neighborhood = active
-      ? new Set<string>([active, ...graph.neighbors(active)])
+    // Always resolve against Sigma's live graph — React's useMemo Graph can
+    // diverge after hydrate (new auto edge keys → NotFoundGraphError).
+    const live: AbstractGraph = sigma.getGraph();
+    const lookup: AbstractGraph =
+      active && live.hasNode(active) ? live : graph;
+
+    const neighborhood = active && lookup.hasNode(active)
+      ? new Set<string>([active, ...lookup.neighbors(active)])
       : null;
     const activeColor =
-      active && graph.hasNode(active)
+      active && lookup.hasNode(active)
         ? colorMode === "type"
           ? ENTITY_TYPE_COLORS[
-              graph.getNodeAttribute(active, "entityType") as EntityType
+              lookup.getNodeAttribute(active, "entityType") as EntityType
             ]
-          : (graph.getNodeAttribute(active, "color") as string)
+          : (lookup.getNodeAttribute(active, "color") as string)
         : null;
 
     setSettings({
@@ -125,7 +129,6 @@ function GraphController({
             res.label = "";
             res.zIndex = 0;
           } else {
-            // Always label the focused cluster, even below the size threshold.
             res.forceLabel = true;
             res.zIndex = 2;
           }
@@ -138,7 +141,11 @@ function GraphController({
       },
       edgeReducer: (edge, data) => {
         const res = { ...data };
-        const [s, t] = graph.extremities(edge);
+        if (!live.hasEdge(edge)) {
+          res.hidden = true;
+          return res;
+        }
+        const [s, t] = live.extremities(edge);
         if (!visible.has(s) || !visible.has(t)) {
           res.hidden = true;
           return res;
@@ -155,14 +162,79 @@ function GraphController({
         return res;
       },
     });
-  }, [setSettings, graph, visible, active, colorMode]);
+  }, [setSettings, sigma, graph, visible, active, colorMode]);
 
   return null;
+}
+
+function SigmaCanvas({
+  graph,
+  visible,
+  active,
+  selected,
+  colorMode,
+  onSelect,
+  onHover,
+}: {
+  graph: Graph;
+  visible: Set<string>;
+  active: string | null;
+  selected: string | null;
+  colorMode: ColorMode;
+  onSelect: (id: string | null) => void;
+  onHover: (id: string | null) => void;
+}) {
+  // Create image program only after WebGL is confirmed — top-level create
+  // crashes when getContext('webgl') returns null.
+  const nodeProgramClasses = useMemo(() => {
+    const NodeImageProgram = createNodeImageProgram({
+      drawingMode: "background",
+      keepWithinCircle: true,
+      padding: 0.25,
+    });
+    return { image: NodeImageProgram };
+  }, []);
+
+  return (
+    <GraphErrorBoundary>
+      <SigmaContainer
+        style={{ height: "100%", width: "100%", background: "transparent" }}
+        settings={{
+          allowInvalidContainer: true,
+          defaultNodeType: "image",
+          nodeProgramClasses,
+          renderEdgeLabels: false,
+          labelColor: { color: "#c8d4e6" },
+          labelFont: "var(--font-plex), system-ui, sans-serif",
+          labelSize: 12,
+          labelWeight: "500",
+          labelRenderedSizeThreshold: 7,
+          labelDensity: 0.9,
+          labelGridCellSize: 90,
+          defaultEdgeColor: "#2a3850",
+          defaultDrawNodeHover: drawNodeHover,
+          stagePadding: 56,
+          zIndex: true,
+        }}
+      >
+        <GraphController
+          graph={graph}
+          visible={visible}
+          active={active}
+          focus={selected}
+          colorMode={colorMode}
+          onSelect={onSelect}
+          onHover={onHover}
+        />
+      </SigmaContainer>
+    </GraphErrorBoundary>
+  );
 }
 
 export default function Observatory({ embed = false }: { embed?: boolean }) {
   const data = useDataset();
   const graph = useMemo(() => buildGraph(data), [data]);
+  const stats = useMemo(() => ecosystemStats(data), [data]);
 
   const availableTypes = useMemo(() => {
     const present = new Set(data.entities.map((e) => e.type));
@@ -174,10 +246,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
   const [colorMode, setColorMode] = useState<ColorMode>("initiative");
   const [view, setView] = useState<"graph" | "map">("graph");
   const [regionFilter, setRegionFilter] = useState<Region | null>(null);
-  // Exclusion sets survive late data hydration: entities that arrive from the
-  // live API after mount stay visible unless the user opted their group out.
   const [hiddenTypes, setHiddenTypes] = useState<Set<EntityType>>(
-    // Hub lens: hide orgs by default so the map opens on programs/initiatives.
     () => new Set(["org"]),
   );
   const [hiddenInitiatives, setHiddenInitiatives] = useState<Set<Initiative>>(
@@ -185,14 +254,16 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
   );
   const [focusMode, setFocusMode] = useState(false);
   const [chapterBanner, setChapterBanner] = useState<Region | null>(null);
-  // Assume WebGL during SSR; the client snapshot corrects it after hydration.
+  const [railOpen, setRailOpen] = useState(false);
+  const [toursOpen, setToursOpen] = useState(false);
+  const [statsOpen, setStatsOpen] = useState(false);
+
   const canWebgl = useSyncExternalStore(
     subscribeNoop,
     webglSupported,
     () => true,
   );
 
-  // Deep link + embed params: ?node= & ?initiative=
   const deepLink = useRef<string | null>(null);
   const initiativeParam = useRef<Initiative | null>(null);
   useEffect(() => {
@@ -232,13 +303,24 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
       if (typeOk && initOk && regionOk) set.add(e.id);
     }
     if (focusMode && selected && graph.hasNode(selected)) {
-      const neighborhood = new Set<string>([selected, ...graph.neighbors(selected)]);
+      const neighborhood = new Set<string>([
+        selected,
+        ...graph.neighbors(selected),
+      ]);
       for (const id of [...set]) {
         if (!neighborhood.has(id)) set.delete(id);
       }
     }
     return set;
-  }, [data, hiddenTypes, hiddenInitiatives, regionFilter, focusMode, selected, graph]);
+  }, [
+    data,
+    hiddenTypes,
+    hiddenInitiatives,
+    regionFilter,
+    focusMode,
+    selected,
+    graph,
+  ]);
 
   const active = selected ?? hovered;
 
@@ -259,6 +341,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
 
   return (
     <div className="observatory-bg relative h-dvh w-full overflow-hidden">
+      {/* Full-bleed graph / map — the visual hero */}
       {view === "map" && (
         <MapView
           entities={data.entities}
@@ -266,7 +349,7 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
           onRegionClick={(r) => {
             setRegionFilter(r);
             setChapterBanner(r);
-            setHiddenTypes(new Set()); // show orgs in chapter lens
+            setHiddenTypes(new Set());
             setView("graph");
           }}
         />
@@ -275,51 +358,26 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
         <GraphFallback message="This browser doesn't support WebGL, which the graph needs to draw." />
       )}
       {view === "graph" && canWebgl && (
-        <GraphErrorBoundary>
-          <SigmaContainer
-            style={{ height: "100%", width: "100%", background: "transparent" }}
-            settings={{
-              allowInvalidContainer: true,
-              defaultNodeType: "image",
-              nodeProgramClasses: { image: NodeImageProgram },
-              renderEdgeLabels: false,
-              labelColor: { color: "#cbd5e1" },
-              labelFont: "var(--font-geist-sans), system-ui, sans-serif",
-              labelSize: 12,
-              labelWeight: "500",
-              // Only label nodes that render reasonably large; zooming in
-              // (or selecting) reveals the rest instead of a wall of text.
-              labelRenderedSizeThreshold: 7,
-              labelDensity: 0.9,
-              labelGridCellSize: 90,
-              defaultEdgeColor: "#2b3a55",
-              defaultDrawNodeHover: drawNodeHover,
-              stagePadding: 48,
-              zIndex: true,
-            }}
-          >
-            <GraphController
-              graph={graph}
-              visible={visible}
-              active={active}
-              focus={selected}
-              colorMode={colorMode}
-              onSelect={setSelected}
-              onHover={setHovered}
-            />
-          </SigmaContainer>
-        </GraphErrorBoundary>
+        <SigmaCanvas
+          graph={graph}
+          visible={visible}
+          active={active}
+          selected={selected}
+          colorMode={colorMode}
+          onSelect={setSelected}
+          onHover={setHovered}
+        />
       )}
 
       {view === "graph" && visible.size === 0 && (
         <div className="absolute inset-0 z-10 flex items-center justify-center">
-          <div className="rounded-2xl border border-white/10 bg-slate-900/85 px-6 py-5 text-center shadow-2xl backdrop-blur">
-            <p className="text-sm text-slate-300">
+          <div className="obs-surface-solid obs-animate-in max-w-sm rounded-[var(--radius-panel)] px-6 py-5 text-center">
+            <p className="text-sm text-[var(--muted)]">
               Nothing matches the current filters.
             </p>
             <button
               onClick={resetFilters}
-              className="mt-3 rounded-full border border-sky-500/40 bg-sky-500/15 px-4 py-1.5 text-xs font-medium text-sky-200 transition hover:bg-sky-500/25"
+              className="mt-3 rounded-md border border-[color-mix(in_srgb,var(--bc-ai)_45%,transparent)] bg-[color-mix(in_srgb,var(--bc-ai)_18%,transparent)] px-4 py-1.5 text-xs font-medium text-[var(--bc-ai)] transition hover:bg-[color-mix(in_srgb,var(--bc-ai)_28%,transparent)]"
             >
               Reset filters
             </button>
@@ -329,178 +387,267 @@ export default function Observatory({ embed = false }: { embed?: boolean }) {
 
       {!embed && (
         <>
-          <header className="absolute left-4 top-4 z-20 max-w-[calc(100vw-2rem)]">
-            <div className="flex items-center gap-2.5 rounded-2xl border border-white/10 bg-slate-900/75 px-4 py-2.5 shadow-xl backdrop-blur-md">
-              <span
-                aria-hidden
-                className="h-2.5 w-2.5 shrink-0 rounded-full bg-gradient-to-br from-sky-400 to-emerald-400 shadow-[0_0_12px_2px_rgba(56,189,248,0.5)]"
-              />
-              <div className="leading-tight">
-                <h1 className="text-sm font-semibold tracking-tight text-slate-100">
-                  The Observatory
-                </h1>
-                <p className="text-[11px] text-slate-400">
-                  A living map of BC + AI · ED + AI · Futureproof ·{" "}
-                  <a href="/about" className="text-sky-400 hover:underline">
-                    about
-                  </a>
-                </p>
-              </div>
+          {/* Brand wordmark — hero-level, not a chip */}
+          <header className="pointer-events-none absolute left-4 top-4 z-20 max-w-[min(22rem,calc(100vw-5.5rem))] obs-animate-in sm:left-6 sm:top-6">
+            <div className="pointer-events-auto">
+              <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[var(--muted)]">
+                official.observer
+              </p>
+              <h1 className="font-display mt-0.5 text-[1.85rem] font-medium leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] sm:text-[2.35rem]">
+                The Observatory
+              </h1>
+              <p className="mt-1.5 max-w-[16rem] text-xs leading-relaxed text-[var(--muted)] sm:text-[13px]">
+                <span style={{ color: "var(--bc-ai)" }}>BC + AI</span>
+                {" · "}
+                <span style={{ color: "var(--ed-ai)" }}>ED + AI</span>
+                {" · "}
+                <span style={{ color: "var(--futureproof)" }}>Futureproof</span>
+                {" — "}
+                <a
+                  href="/about"
+                  className="text-[var(--foreground)]/70 underline-offset-2 hover:text-[var(--bc-ai)] hover:underline"
+                >
+                  about
+                </a>
+              </p>
             </div>
           </header>
 
-          <FilterBar
-            availableTypes={availableTypes}
-            hiddenTypes={hiddenTypes}
-            hiddenInitiatives={hiddenInitiatives}
-            onToggleType={(t) => setHiddenTypes((s) => toggle(s, t))}
-            onToggleInitiative={(i) =>
-              setHiddenInitiatives((s) => toggle(s, i))
-            }
-          />
-          <SearchBox
-            entities={data.entities}
-            onSelect={(id) => setSelected(id)}
-          />
+          {/* Single command affordance */}
+          <div className="absolute right-3 top-3 z-30 flex flex-col items-end gap-2 sm:right-5 sm:top-5">
+            <button
+              type="button"
+              aria-expanded={railOpen}
+              aria-controls="observatory-rail"
+              onClick={() => setRailOpen((o) => !o)}
+              className="obs-surface flex h-11 items-center gap-2 rounded-full px-4 text-sm font-medium text-[var(--foreground)] shadow-lg transition hover:border-[var(--line-strong)]"
+            >
+              <span className="font-display text-base tracking-tight">
+                {railOpen ? "Close" : "Explore"}
+              </span>
+              <span
+                aria-hidden
+                className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-[10px]"
+              >
+                {railOpen ? "✕" : "⌘"}
+              </span>
+            </button>
+
+            {railOpen && (
+              <aside
+                id="observatory-rail"
+                className="obs-surface-solid obs-panel-in flex w-[min(var(--rail-width),calc(100vw-1.5rem))] flex-col gap-3 rounded-[var(--radius-panel)] p-3 shadow-2xl"
+              >
+                <SearchBox
+                  entities={data.entities}
+                  onSelect={(id) => {
+                    setSelected(id);
+                    setRailOpen(false);
+                  }}
+                  embedded
+                />
+
+                <FilterBar
+                  availableTypes={availableTypes}
+                  hiddenTypes={hiddenTypes}
+                  hiddenInitiatives={hiddenInitiatives}
+                  onToggleType={(t) => setHiddenTypes((s) => toggle(s, t))}
+                  onToggleInitiative={(i) =>
+                    setHiddenInitiatives((s) => toggle(s, i))
+                  }
+                  embedded
+                />
+
+                <div className="flex flex-wrap gap-1.5">
+                  {(["graph", "map"] as const).map((v) => (
+                    <button
+                      key={v}
+                      type="button"
+                      onClick={() => setView(v)}
+                      className={`rounded-md px-2.5 py-1 text-xs font-medium capitalize transition ${
+                        view === v
+                          ? "bg-[color-mix(in_srgb,var(--bc-ai)_22%,transparent)] text-[var(--bc-ai)]"
+                          : "bg-white/5 text-[var(--muted)] hover:text-[var(--foreground)]"
+                      }`}
+                    >
+                      {v}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setHiddenTypes((s) => {
+                        const next = new Set(s);
+                        if (next.has("org")) next.delete("org");
+                        else next.add("org");
+                        return next;
+                      })
+                    }
+                    className={`rounded-md px-2.5 py-1 text-xs font-medium transition ${
+                      hiddenTypes.has("org")
+                        ? "bg-white/5 text-[var(--muted)]"
+                        : "bg-[color-mix(in_srgb,var(--bc-ai)_22%,transparent)] text-[var(--bc-ai)]"
+                    }`}
+                  >
+                    {hiddenTypes.has("org") ? "Show orgs" : "Hub lens"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFocusMode((f) => !f)}
+                    disabled={!selected}
+                    className={`rounded-md px-2.5 py-1 text-xs font-medium transition disabled:opacity-35 ${
+                      focusMode
+                        ? "bg-[color-mix(in_srgb,var(--futureproof)_25%,transparent)] text-[var(--futureproof)]"
+                        : "bg-white/5 text-[var(--muted)] hover:text-[var(--foreground)]"
+                    }`}
+                  >
+                    Focus
+                  </button>
+                </div>
+
+                {view === "graph" && (
+                  <div>
+                    <div className="mb-1.5 flex items-center gap-1.5">
+                      <span className="text-[10px] uppercase tracking-[0.16em] text-[var(--muted)]">
+                        Color
+                      </span>
+                      {(["initiative", "type"] as ColorMode[]).map((m) => (
+                        <button
+                          key={m}
+                          type="button"
+                          onClick={() => setColorMode(m)}
+                          className={`rounded-md px-2 py-0.5 text-xs font-medium capitalize transition ${
+                            colorMode === m
+                              ? "bg-white/10 text-white"
+                              : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                          }`}
+                        >
+                          {m}
+                        </button>
+                      ))}
+                    </div>
+                    <ul className="space-y-1">
+                      {colorMode === "initiative"
+                        ? INITIATIVES.map((i) => (
+                            <li
+                              key={i.id}
+                              className="flex items-center gap-2 text-xs text-[var(--muted)]"
+                            >
+                              <span
+                                className="h-2 w-2 rounded-full"
+                                style={{ backgroundColor: i.color }}
+                              />
+                              {i.label}
+                            </li>
+                          ))
+                        : availableTypes.map((t) => (
+                            <li
+                              key={t}
+                              className="flex items-center gap-2 text-xs text-[var(--muted)]"
+                            >
+                              <span
+                                className="h-2 w-2 rounded-full"
+                                style={{
+                                  backgroundColor: ENTITY_TYPE_COLORS[t],
+                                }}
+                              />
+                              {ENTITY_TYPE_LABELS[t]}
+                            </li>
+                          ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap gap-1.5 border-t border-[var(--line)] pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setToursOpen(true);
+                      setRailOpen(false);
+                    }}
+                    className="rounded-md bg-white/5 px-2.5 py-1 text-xs font-medium text-[var(--foreground)] hover:bg-white/10"
+                  >
+                    Tours
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStatsOpen((s) => !s)}
+                    className="rounded-md bg-white/5 px-2.5 py-1 text-xs font-medium text-[var(--muted)] hover:text-[var(--foreground)]"
+                  >
+                    {statsOpen ? "Hide stats" : "Stats"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="rounded-md px-2.5 py-1 text-xs text-[var(--muted)] hover:text-[var(--foreground)]"
+                  >
+                    Reset
+                  </button>
+                </div>
+
+                {statsOpen && (
+                  <dl className="grid grid-cols-3 gap-2 border-t border-[var(--line)] pt-2 text-center">
+                    {[
+                      { v: stats.totalEntities, l: "entities" },
+                      { v: stats.totalRelationships, l: "links" },
+                      { v: stats.chapters, l: "chapters" },
+                    ].map((s) => (
+                      <div key={s.l}>
+                        <dt className="text-[10px] uppercase tracking-wider text-[var(--muted)]">
+                          {s.l}
+                        </dt>
+                        <dd className="font-display text-lg tabular-nums text-[var(--bc-ai)]">
+                          {s.v}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+              </aside>
+            )}
+          </div>
 
           {regionFilter && (
             <button
+              type="button"
               onClick={() => {
                 setRegionFilter(null);
                 setChapterBanner(null);
               }}
               aria-label="Clear region filter"
-              className="absolute left-1/2 top-16 z-10 -translate-x-1/2 rounded-full border border-sky-500/40 bg-sky-500/15 px-3 py-1 text-xs font-medium text-sky-200 shadow-xl backdrop-blur hover:bg-sky-500/25"
+              className="obs-surface absolute left-1/2 top-[5.5rem] z-20 -translate-x-1/2 rounded-full px-3 py-1 text-xs font-medium text-[var(--bc-ai)] sm:top-6"
             >
               Region: {REGION_CENTROIDS[regionFilter].label} ✕
             </button>
           )}
 
-          {chapterBanner && (
-            <div className="absolute left-1/2 top-24 z-10 w-[min(22rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-white/10 bg-slate-900/85 p-3 text-sm shadow-xl backdrop-blur max-sm:hidden">
-              <div className="text-[10px] uppercase tracking-wider text-slate-500">
+          {chapterBanner && !selected && (
+            <div className="obs-surface absolute bottom-28 left-4 z-10 hidden max-w-xs rounded-[var(--radius-panel)] p-3 text-sm sm:block">
+              <div className="text-[10px] uppercase tracking-[0.16em] text-[var(--muted)]">
                 Chapter hub
               </div>
-              <div className="font-medium text-slate-100">
+              <div className="font-display text-base text-[var(--foreground)]">
                 {REGION_CENTROIDS[chapterBanner].label}
               </div>
-              <p className="mt-1 text-xs text-slate-400">
-                Showing entities in this region. Toggle Focus after selecting a
-                node to isolate its neighborhood.
+              <p className="mt-1 text-xs text-[var(--muted)]">
+                Region lens on. Select a node, then Focus to isolate its
+                neighborhood.
               </p>
             </div>
           )}
 
-          <StoryModes dataset={data} onSelect={(id) => setSelected(id)} />
+          {toursOpen && (
+            <StoryModes
+              dataset={data}
+              onSelect={(id) => setSelected(id)}
+              onClose={() => setToursOpen(false)}
+            />
+          )}
 
-          <div className="absolute bottom-4 left-4 z-10 rounded-2xl border border-white/10 bg-slate-900/75 p-3 text-slate-100 shadow-xl backdrop-blur-md">
-            <div className="flex items-center gap-1 rounded-full bg-white/5 p-0.5">
-              {(["graph", "map"] as const).map((v) => (
-                <button
-                  key={v}
-                  onClick={() => setView(v)}
-                  className={`rounded-full px-3 py-1 text-xs font-medium capitalize transition ${
-                    view === v
-                      ? "bg-sky-500/20 text-sky-100 shadow-inner"
-                      : "text-slate-400 hover:text-slate-200"
-                  }`}
-                >
-                  {v}
-                </button>
-              ))}
-            </div>
-            {view === "graph" && (
-              <div className="mt-2 flex flex-wrap gap-1">
-                <button
-                  onClick={() =>
-                    setHiddenTypes((s) => {
-                      const next = new Set(s);
-                      if (next.has("org")) next.delete("org");
-                      else next.add("org");
-                      return next;
-                    })
-                  }
-                  className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition ${
-                    hiddenTypes.has("org")
-                      ? "bg-white/5 text-slate-400"
-                      : "bg-sky-500/15 text-sky-200"
-                  }`}
-                >
-                  {hiddenTypes.has("org") ? "Show orgs" : "Hub lens"}
-                </button>
-                <button
-                  onClick={() => setFocusMode((f) => !f)}
-                  disabled={!selected}
-                  className={`rounded-full px-2 py-0.5 text-[11px] font-medium transition disabled:opacity-40 ${
-                    focusMode
-                      ? "bg-amber-500/20 text-amber-100"
-                      : "bg-white/5 text-slate-400 hover:text-slate-200"
-                  }`}
-                >
-                  Focus
-                </button>
-              </div>
-            )}
-            {view === "graph" && (
-              <>
-                <div className="mt-2.5 flex items-center gap-1.5">
-                  <span className="text-[10px] uppercase tracking-[0.14em] text-slate-500">
-                    Color by
-                  </span>
-                  {(["initiative", "type"] as ColorMode[]).map((m) => (
-                    <button
-                      key={m}
-                      onClick={() => setColorMode(m)}
-                      className={`rounded-full px-2 py-0.5 text-xs font-medium capitalize transition ${
-                        colorMode === m
-                          ? "bg-white/10 text-white"
-                          : "text-slate-400 hover:text-slate-200"
-                      }`}
-                    >
-                      {m}
-                    </button>
-                  ))}
-                </div>
-                <ul className="mt-2 space-y-1">
-                  {colorMode === "initiative"
-                    ? INITIATIVES.map((i) => (
-                        <li
-                          key={i.id}
-                          className="flex items-center gap-2 text-xs text-slate-300"
-                        >
-                          <span
-                            className="h-2.5 w-2.5 rounded-full"
-                            style={{ backgroundColor: i.color }}
-                          />
-                          {i.label}
-                        </li>
-                      ))
-                    : availableTypes.map((t) => (
-                        <li
-                          key={t}
-                          className="flex items-center gap-2 text-xs text-slate-300"
-                        >
-                          <span
-                            className="h-2.5 w-2.5 rounded-full"
-                            style={{ backgroundColor: ENTITY_TYPE_COLORS[t] }}
-                          />
-                          {ENTITY_TYPE_LABELS[t]}
-                        </li>
-                      ))}
-                </ul>
-              </>
-            )}
-          </div>
-
-          <Scorecard
-            dataset={data}
-            className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 max-sm:hidden"
-          />
-          <PulsePanel dataset={data} onSelect={(id) => setSelected(id)} />
           <PulsePanel
             dataset={data}
-            compact
             onSelect={(id) => setSelected(id)}
+            hasSelection={Boolean(selected)}
           />
         </>
       )}
