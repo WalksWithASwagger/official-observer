@@ -44,6 +44,13 @@ npm run check:seo # verify raw HTML against a running server on localhost:3000
 Set `SEO_CHECK_BASE_URL` to run the search-discovery check against another local
 port.
 
+## Environment
+
+`.env.schema` is the agent-readable contract. Keep values in ignored local
+files or the platform store, validate with `varlock load --agent --show-all`,
+and run secret-dependent commands through
+`varlock run --inject vars -- <command>`.
+
 ## The data model
 
 Two files drive the seed map (and remain the fallback when no DB is configured):
