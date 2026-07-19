@@ -37,7 +37,12 @@ It's a WebGL knowledge graph. The repo ships version-controlled open data in
 npm install
 npm run dev      # http://localhost:3000
 npm run build    # production build
+npm run start    # serve the production build
+npm run check:seo # verify raw HTML against a running server on localhost:3000
 ```
+
+Set `SEO_CHECK_BASE_URL` to run the search-discovery check against another local
+port.
 
 ## The data model
 

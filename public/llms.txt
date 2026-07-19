@@ -1,0 +1,9 @@
+# The Observatory
+
+The Observatory is a public, interactive living map of the BC + AI, ED + AI, and Futureproof ecosystem.
+
+Canonical homepage: https://official.observer/
+About: https://official.observer/about
+Public graph API: https://official.observer/api/v1/graph
+Dataset license: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+Source repository: https://github.com/WalksWithASwagger/official-observer
