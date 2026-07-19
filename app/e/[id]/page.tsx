@@ -45,6 +45,9 @@ export async function generateMetadata({
   return {
     title: `${entity.name} — The Observatory`,
     description: entity.blurb,
+    alternates: {
+      canonical: `/e/${entity.id}`,
+    },
     openGraph: {
       title: entity.name,
       description: entity.blurb,
