@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "check:seo": "node scripts/check-search-discovery.mjs",
+    "check:www": "node scripts/check-www-host.mjs",
     "validate": "node scripts/validate-data.mjs",
     "seed": "node scripts/seed.mjs"
   },
