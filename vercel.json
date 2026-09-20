@@ -2,5 +2,19 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
     { "path": "/api/sync/notion", "schedule": "0 8 * * *" }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.official.observer" }],
+      "destination": "https://official.observer/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.official.observer" }],
+      "destination": "https://official.observer/:path*",
+      "permanent": true
+    }
   ]
 }

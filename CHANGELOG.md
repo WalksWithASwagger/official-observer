@@ -40,6 +40,9 @@ Master-plan Horizons 0–4 foundations.
 ## [Unreleased]
 
 ### Fixed
+- **www host** — `www.official.observer` permanently redirects to apex
+  `https://official.observer` (path + query preserved). Public DNS for `www`
+  is still a Porkbun CNAME, not a repo change.
 - **`joinUrl` persistence** — Postgres schema/seed/sync now round-trip Notion
   `Join URL` via `join_url` (was dropped on live API).
 - **Live dataset in UI** — Entity panel, search, scorecard, and deep links use

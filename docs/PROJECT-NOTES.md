@@ -65,6 +65,20 @@ data/relationships ─┘     ▲                         │
 - `npm run build` — production build (also runs typecheck + data validator).
 - `npm run dev` — local graph at http://localhost:3000.
 - Live: https://official.observer · embed: https://official.observer/embed
+- `npm run check:www` — asserts the www → apex redirect exists in `vercel.json`
+  and `next.config.ts`.
+- Local HTTP (after `npm run build && npm run start`):
+  `WWW_CHECK_BASE_URL=http://127.0.0.1:3000 npm run check:www`
+  or `curl -sSI -H 'Host: www.official.observer' http://127.0.0.1:3000/about?x=1`
+  (expect 308 to `https://official.observer/about?x=1`).
+- After a human adds the Porkbun `www` CNAME:
+  `dig +short www.official.observer CNAME` should return a Vercel target, and
+  `curl -sSI https://www.official.observer/about?x=1` should 308 to
+  `https://official.observer/about?x=1`. Apex
+  `https://official.observer/` must stay 200.
+- `www.official.observer` is attached on the Vercel project and must 308 to the
+  apex (repo: `vercel.json` + `next.config.ts`). Public resolution still needs a
+  Porkbun `www` CNAME — that registrar change is out of band for agents.
 
 ## Roadmap
 
@@ -74,6 +88,10 @@ load off the team. Hard rule throughout: **public-safe entities only** — no PI
 no Chatham House content, no funding figures, no AInBC governance dossier.
 
 - [x] **Custom domain** — live at https://official.observer (Porkbun A-record).
+- [~] **www host** — Vercel already has `www.official.observer` (verified, no
+      domain-level redirect). Repo now 308s www → apex. Porkbun has no `www`
+      record yet, so the hostname does not resolve until a human adds
+      `CNAME www → cname.vercel-dns.com` (or the target Vercel shows).
 - [x] **Phase 1 — Populate the real ecosystem** *(0.2.0)* — 39 public entities /
       62+ relationships; people removed; `region` tags added.
 - [x] **Phase 2 — Living "pulse" layer** *(0.3.0)* — Pulse panel: Futureproof

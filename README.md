@@ -39,10 +39,15 @@ npm run dev      # http://localhost:3000
 npm run build    # production build
 npm run start    # serve the production build
 npm run check:seo # verify raw HTML against a running server on localhost:3000
+npm run check:www # verify www → apex redirect config (optional HTTP check)
 ```
 
 Set `SEO_CHECK_BASE_URL` to run the search-discovery check against another local
-port.
+port. Set `WWW_CHECK_BASE_URL` to also hit a running server with
+`Host: www.official.observer` (or the live www host after DNS exists). Canonical
+host is the apex `https://official.observer`; `www` 308s there. Porkbun still
+needs a `www` CNAME before the public hostname resolves — see
+[docs/PROJECT-NOTES.md](./docs/PROJECT-NOTES.md).
 
 ## Environment
 

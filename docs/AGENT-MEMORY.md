@@ -23,6 +23,22 @@ curl -sS https://official.observer/api/v1/graph | jq '{version, n:(.entities|len
 
 Expect: validate + wave-gate ok; build green; live `version:1`, ~44 entities, Next Dates present.
 
+## www host (apex is canonical)
+
+`www.official.observer` is already on the Vercel project (`official-observer`,
+verified) but has **no Porkbun DNS**, so the public hostname does not resolve.
+Repo config 308s www → `https://official.observer` (`vercel.json` +
+`next.config.ts`). Do not change registrar DNS from an agent.
+
+```bash
+npm run check:www
+# after build + start:
+WWW_CHECK_BASE_URL=http://127.0.0.1:3000 npm run check:www
+# after a human adds Porkbun CNAME www → cname.vercel-dns.com:
+curl -sSI https://www.official.observer/about?x=1
+# expect 308 Location: https://official.observer/about?x=1
+```
+
 ## Do not
 
 - Sync operational DBs (Ecosystem Map, Master Calendar, Projects, Social)
