@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
+import { request as httpRequest } from "node:http";
+import { request as httpsRequest } from "node:https";
 import { readFile } from "node:fs/promises";
 
 const APEX = "official.observer";
@@ -64,21 +66,46 @@ if (!httpBase) {
 const baseUrl = httpBase.replace(/\/$/, "");
 const usingLiveWww = new URL(baseUrl).hostname === WWW;
 
+function requestOnce(url, hostHeader) {
+  const parsed = new URL(url);
+  const transport = parsed.protocol === "https:" ? httpsRequest : httpRequest;
+  return new Promise((resolve, reject) => {
+    const req = transport(
+      {
+        hostname: parsed.hostname,
+        port: parsed.port || undefined,
+        path: `${parsed.pathname}${parsed.search}`,
+        method: "GET",
+        headers: hostHeader ? { host: hostHeader } : undefined,
+      },
+      (response) => {
+        response.resume();
+        resolve({
+          status: response.statusCode ?? 0,
+          location: response.headers.location,
+        });
+      },
+    );
+    req.on("error", reject);
+    req.end();
+  });
+}
+
 async function assertRedirect(pathWithQuery, expectedPathWithQuery) {
   const requestUrl = `${baseUrl}${pathWithQuery}`;
-  const headers = usingLiveWww ? undefined : { host: WWW };
-  const response = await fetch(requestUrl, {
-    method: "GET",
-    redirect: "manual",
-    headers,
-  });
+  const response = await requestOnce(
+    requestUrl,
+    usingLiveWww ? undefined : WWW,
+  );
   assert.ok(
     [301, 308].includes(response.status),
     `${requestUrl} should 301/308, got ${response.status}`,
   );
-  const location = response.headers.get("location");
-  assert.ok(location, `${requestUrl} should send Location`);
-  assert.equal(new URL(location, APEX_ORIGIN).href, `${APEX_ORIGIN}${expectedPathWithQuery}`);
+  assert.ok(response.location, `${requestUrl} should send Location`);
+  assert.equal(
+    new URL(response.location, APEX_ORIGIN).href,
+    `${APEX_ORIGIN}${expectedPathWithQuery}`,
+  );
 }
 
 await assertRedirect("/", "/");
