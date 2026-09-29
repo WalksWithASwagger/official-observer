@@ -3,11 +3,13 @@
   "version": "0.6.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "varlock run --inject vars -- next dev",
     "prebuild": "npm run validate",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "env:validate": "varlock load --agent --show-all",
     "check:seo": "node scripts/check-search-discovery.mjs",
     "check:www": "node scripts/check-www-host.mjs",
     "validate": "node scripts/validate-data.mjs",
@@ -38,6 +40,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "varlock": "^1.21.0"
   }
 }

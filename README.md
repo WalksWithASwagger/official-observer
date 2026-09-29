@@ -35,8 +35,8 @@ It's a WebGL knowledge graph. The repo ships version-controlled open data in
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build
+npm run dev      # http://localhost:3000 (loads env through Varlock)
+npm run build    # production build (Vercel env; not wrapped)
 npm run start    # serve the production build
 npm run check:seo # verify raw HTML against a running server on localhost:3000
 npm run check:www # verify www → apex redirect config (optional HTTP check)
@@ -51,10 +51,28 @@ needs a `www` CNAME before the public hostname resolves — see
 
 ## Environment
 
-`.env.schema` is the agent-readable contract. Keep values in ignored local
-files or the platform store, validate with `varlock load --agent --show-all`,
-and run secret-dependent commands through
-`varlock run --inject vars -- <command>`.
+`.env.schema` is the agent-readable contract. Local values live in
+`~/.agents/env/values/` and are referenced by path: a pick-restricted
+`NOTION_TOKEN` import from `.env.shared.local`, then the project file
+`.env.official-observer.local` with no pick list. Both imports use
+`allowMissing=true`. Deployed values stay in Vercel.
+
+`npm run dev` loads that contract through `varlock run --inject vars`.
+Do not wrap `npm run build` or `npm run start` with Varlock — Vercel
+injects deployed values itself. Validate with redacted output:
+
+```bash
+npm run env:validate
+# same as: npx varlock load --agent --show-all
+```
+
+For another env-dependent command, inject only into the child process:
+
+```bash
+npx varlock run --inject vars -- <command>
+```
+
+Agents must not create, open, print, copy, or modify value files.
 
 ## The data model
 
