@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **This repository is archived (read-only) as of 2026-10-03.** The canonical source now lives in [`WalksWithASwagger/kk-kb`](https://github.com/WalksWithASwagger/kk-kb) at [`kk-kb/apps/official-observer`](https://github.com/WalksWithASwagger/kk-kb/tree/main/apps/official-observer). The live site (https://official.observer) deploys from kk-kb. Open issues, PRs and history stay here for reference. Make new changes in kk-kb.
+
 # The Observatory
 
 A public, interactive **living map** of the BC + AI, ED + AI, and Futureproof
